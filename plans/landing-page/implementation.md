@@ -1155,8 +1155,8 @@ export default function HomePage() {
 ---
 
 #### Step 4: Implement Results and About sections
-- [ ] Create Results section with in-view count-up metrics.
-- [ ] Copy and paste code below into `components/Results.tsx`:
+- [x] Create Results section with in-view count-up metrics.
+- [x] Copy and paste code below into `components/Results.tsx`:
 
 ```tsx
 "use client";
@@ -1244,8 +1244,8 @@ export function Results() {
 }
 ```
 
-- [ ] Create About section.
-- [ ] Copy and paste code below into `components/About.tsx`:
+- [x] Create About section.
+- [x] Copy and paste code below into `components/About.tsx`:
 
 ```tsx
 "use client";
@@ -1287,8 +1287,8 @@ export function About() {
 }
 ```
 
-- [ ] Update page composition.
-- [ ] Copy and paste code below into `app/page.tsx`:
+- [x] Update page composition.
+- [x] Copy and paste code below into `app/page.tsx`:
 
 ```tsx
 import { About } from "@/components/About";

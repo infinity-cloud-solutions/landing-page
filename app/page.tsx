@@ -1,7 +1,9 @@
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import { Process } from "@/components/Process";
+import { Results } from "@/components/Results";
 import { Services } from "@/components/Services";
+import { About } from "@/components/About";
 
 function PlaceholderSection({ id, title }: { id: string; title: string }) {
   return (
@@ -19,8 +21,8 @@ export default function HomePage() {
       <Hero />
       <Services />
       <Process />
-      <PlaceholderSection id="results" title="Results section" />
-      <PlaceholderSection id="about" title="About section" />
+      <Results />
+      <About />
       <PlaceholderSection id="contact" title="Contact section" />
     </main>
   );
