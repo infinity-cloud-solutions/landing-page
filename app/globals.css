@@ -25,3 +25,21 @@ body {
   margin: 0 auto;
   padding: 2rem;
 }
+
+header a {
+  text-decoration: none;
+}
+
+.hero { }
+
+.language-toggle button { opacity: 0.95 }
+
+/* CTA magnetic-ish hover (simple) */
+.hero a[href="#contact"]:hover {
+  transform: translateY(-3px) scale(1.02);
+}
+
+/* Smooth scroll anchor support */
+html {
+  scroll-behavior: smooth;
+}

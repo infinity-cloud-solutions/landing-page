@@ -1,24 +1,27 @@
-import { useTranslations } from '../lib/i18n'
+import Hero from "@/components/Hero";
+import Navbar from "@/components/Navbar";
+import { Process } from "@/components/Process";
+import { Services } from "@/components/Services";
 
-export default function Home() {
-  const t = useTranslations()
-
+function PlaceholderSection({ id, title }: { id: string; title: string }) {
   return (
-    <main>
-      <header className="container">
-        <h1 className="text-4xl font-bold">{t('hero.title')}</h1>
-        <p className="mt-4 text-lg text-neutral-300">{t('hero.subtitle')}</p>
-      </header>
+    <section id={id} className="section-wrap border-t border-white/5">
+      <p className="eyebrow">Coming next</p>
+      <h2 className="section-title mt-4 text-3xl">{title}</h2>
+    </section>
+  );
+}
 
-      <section id="services" className="container mt-24">
-        <h2 className="text-2xl font-semibold">{t('services.title')}</h2>
-        <p className="text-neutral-400 mt-2">{t('services.subtitle')}</p>
-      </section>
-
-      <section id="contact" className="container mt-24">
-        <h2 className="text-2xl font-semibold">{t('contact.title')}</h2>
-        <p className="text-neutral-400 mt-2">{t('contact.subtitle')}</p>
-      </section>
+export default function HomePage() {
+  return (
+    <main className="main-shell">
+      <Navbar />
+      <Hero />
+      <Services />
+      <Process />
+      <PlaceholderSection id="results" title="Results section" />
+      <PlaceholderSection id="about" title="About section" />
+      <PlaceholderSection id="contact" title="Contact section" />
     </main>
-  )
+  );
 }

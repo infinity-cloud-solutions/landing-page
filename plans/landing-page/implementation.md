@@ -1001,8 +1001,8 @@ export default function HomePage() {
 ---
 
 #### Step 3: Implement Services and Process sections
-- [ ] Create Services section with 3D hover cards.
-- [ ] Copy and paste code below into `components/Services.tsx`:
+ - [x] Create Services section with 3D hover cards.
+ - [x] Copy and paste code below into `components/Services.tsx`:
 
 ```tsx
 "use client";
@@ -1058,8 +1058,8 @@ export function Services() {
 }
 ```
 
-- [ ] Create Process timeline section.
-- [ ] Copy and paste code below into `components/Process.tsx`:
+ - [x] Create Process timeline section.
+ - [x] Copy and paste code below into `components/Process.tsx`:
 
 ```tsx
 "use client";
@@ -1110,8 +1110,8 @@ export function Process() {
 }
 ```
 
-- [ ] Update page composition.
-- [ ] Copy and paste code below into `app/page.tsx`:
+ - [x] Update page composition.
+ - [x] Copy and paste code below into `app/page.tsx`:
 
 ```tsx
 import { Hero } from "@/components/Hero";

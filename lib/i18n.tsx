@@ -1,36 +1,49 @@
-"use client"
-import React, { createContext, useContext, useState } from 'react'
-import translations from './translations'
+"use client";
 
-type Lang = 'es' | 'en'
+import { createContext, type ReactNode, useContext, useEffect, useMemo, useState } from "react";
+import { type Locale, translations } from "@/lib/translations";
 
-const LanguageContext = createContext({
-  lang: 'es' as Lang,
-  setLang: (l: Lang) => {}
-})
+type I18nContextValue = {
+  lang: Locale;
+  setLang: (next: Locale) => void;
+  t: (typeof translations)[Locale];
+};
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLang] = useState<Lang>('es')
-  return (
-    <LanguageContext.Provider value={{ lang, setLang }}>
-      {children}
-    </LanguageContext.Provider>
-  )
-}
+const I18nContext = createContext<I18nContextValue | null>(null);
 
-export function useLanguage() {
-  return useContext(LanguageContext)
-}
+const STORAGE_KEY = "ics_lang";
 
-export function useTranslations() {
-  const { lang } = useContext(LanguageContext)
-  return (key: string) => {
-    const parts = key.split('.')
-    let cur: any = translations[lang]
-    for (const p of parts) {
-      cur = cur?.[p]
-      if (cur == null) return key
+export function LanguageProvider({ children }: { children: ReactNode }) {
+  const [lang, setLangState] = useState<Locale>("es");
+
+  useEffect(() => {
+    const stored = window.localStorage.getItem(STORAGE_KEY);
+    if (stored === "es" || stored === "en") {
+      setLangState(stored);
     }
-    return cur
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.lang = lang;
+    window.localStorage.setItem(STORAGE_KEY, lang);
+  }, [lang]);
+
+  const value = useMemo<I18nContextValue>(
+    () => ({
+      lang,
+      setLang: setLangState,
+      t: translations[lang]
+    }),
+    [lang]
+  );
+
+  return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
+}
+
+export function useI18n() {
+  const context = useContext(I18nContext);
+  if (!context) {
+    throw new Error("useI18n must be used inside LanguageProvider");
   }
+  return context;
 }
