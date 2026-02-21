@@ -26,14 +26,14 @@ function MetricCard({ label, value, suffix }: { label: string; value: number; su
   const { ref, value: count } = useCountUp(value);
 
   return (
-    <article className="card-surface rounded-2xl p-6">
+    <article className="card-surface interactive-card rounded-2xl p-6">
       <p className="font-[var(--font-mono)] text-xs uppercase tracking-[0.12em] text-[color:var(--accent-tertiary)]">
         KPI
       </p>
-      <p ref={ref} className="mt-4 font-[var(--font-display)] text-5xl leading-none text-[color:var(--accent-primary)]">
+      <span ref={ref} className="mt-4 block font-[var(--font-display)] text-5xl leading-none text-[color:var(--accent-primary)]">
         {count}
         {suffix}
-      </p>
+      </span>
       <p className="mt-3 text-sm text-[color:var(--text-muted)]">{label}</p>
     </article>
   );
@@ -64,7 +64,7 @@ export function Results() {
         {t.results.testimonials.map((item, idx) => (
           <motion.blockquote
             key={item.author}
-            className="card-surface rounded-2xl p-6"
+            className="card-surface interactive-card rounded-2xl p-6"
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}

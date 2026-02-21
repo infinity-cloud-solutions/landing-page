@@ -23,7 +23,7 @@ export function About() {
 
         <div className="space-y-4">
           {t.about.differentiators.map((item, idx) => (
-            <article key={item} className="card-surface rounded-xl p-4">
+            <article key={item} className="card-surface interactive-card rounded-xl p-4">
               <p className="font-[var(--font-mono)] text-xs uppercase tracking-[0.12em] text-[color:var(--accent-tertiary)]">
                 0{idx + 1}
               </p>

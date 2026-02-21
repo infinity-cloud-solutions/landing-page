@@ -4,15 +4,8 @@ import { Process } from "@/components/Process";
 import { Results } from "@/components/Results";
 import { Services } from "@/components/Services";
 import { About } from "@/components/About";
-
-function PlaceholderSection({ id, title }: { id: string; title: string }) {
-  return (
-    <section id={id} className="section-wrap border-t border-white/5">
-      <p className="eyebrow">Coming next</p>
-      <h2 className="section-title mt-4 text-3xl">{title}</h2>
-    </section>
-  );
-}
+import { Contact } from "@/components/Contact";
+import { Footer } from "@/components/Footer";
 
 export default function HomePage() {
   return (
@@ -23,7 +16,8 @@ export default function HomePage() {
       <Process />
       <Results />
       <About />
-      <PlaceholderSection id="contact" title="Contact section" />
+      <Contact />
+      <Footer />
     </main>
   );
 }

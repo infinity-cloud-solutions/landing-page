@@ -24,7 +24,7 @@ export function Process() {
         {t.process.steps.map((step, index) => (
           <motion.article
             key={step.title}
-            className="card-surface relative rounded-2xl p-6 md:ml-6"
+            className="card-surface interactive-card relative rounded-2xl p-6 md:ml-6"
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}

@@ -16,9 +16,9 @@ const config: Config = {
         gold: '#C4A265'
       },
       fontFamily: {
-        sans: ['var(--font-satoshi)', 'ui-sans-serif', 'system-ui'],
-        display: ['var(--font-clash)', 'ui-serif', 'system-ui'],
-        mono: ['var(--font-space-mono)', 'ui-monospace', 'monospace']
+        sans: ['var(--font-body)', 'ui-sans-serif', 'system-ui'],
+        display: ['var(--font-display)', 'ui-serif', 'system-ui'],
+        mono: ['var(--font-mono)', 'ui-monospace', 'monospace']
       }
     }
   },

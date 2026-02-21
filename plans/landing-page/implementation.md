@@ -28,11 +28,11 @@ git checkout -b feat/landing-page
 - [ ] Copy and paste code below into `package.json`:
 
 ```json
-{
-  "name": "infinity-cloud-solutions-landing",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
+-
+---
+
+#### Step 5: Implement Contact, Footer, and email API route
+- [x] Create Resend client helper.
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -1333,8 +1333,8 @@ export default function HomePage() {
 
 ---
 
-#### Step 5: Implement Contact, Footer, and email API route
-- [ ] Create Resend client helper.
+- #### Step 5: Implement Contact, Footer, and email API route
+- [x] Create Resend client helper.
 - [ ] Copy and paste code below into `lib/resend.ts`:
 
 ```ts
@@ -1353,7 +1353,7 @@ export function getResendClient() {
 }
 ```
 
-- [ ] Create API route with validation and consistent errors.
+- [x] Create API route with validation and consistent errors.
 - [ ] Copy and paste code below into `app/api/contact/route.ts`:
 
 ```ts
@@ -1442,7 +1442,7 @@ export async function POST(request: NextRequest) {
 }
 ```
 
-- [ ] Create Contact section and async submit flow.
+- [x] Create Contact section and async submit flow.
 - [ ] Copy and paste code below into `components/Contact.tsx`:
 
 ```tsx
@@ -1588,7 +1588,7 @@ export function Contact() {
 }
 ```
 
-- [ ] Create Footer section.
+- [x] Create Footer section.
 - [ ] Copy and paste code below into `components/Footer.tsx`:
 
 ```tsx
@@ -1638,7 +1638,7 @@ export function Footer() {
 }
 ```
 
-- [ ] Update page composition.
+- [x] Update page composition.
 - [ ] Copy and paste code below into `app/page.tsx`:
 
 ```tsx
@@ -1680,8 +1680,8 @@ export default function HomePage() {
 ---
 
 #### Step 6: Final polish, SEO assets, accessibility checks, and docs
-- [ ] Add Open Graph image placeholder asset.
-- [ ] Copy and paste code below into `public/images/og-image.svg`:
+- [x] Add Open Graph image placeholder asset.
+- [x] Copy and paste code below into `public/images/og-image.svg`:
 
 ```svg
 <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1696,8 +1696,8 @@ export default function HomePage() {
 </svg>
 ```
 
-- [ ] Enhance global styles for final interaction polish.
-- [ ] Replace `app/globals.css` with:
+- [x] Enhance global styles for final interaction polish.
+- [x] Replace `app/globals.css` with:
 
 ```css
 @import "tailwindcss";
@@ -1813,8 +1813,8 @@ a {
 }
 ```
 
-- [ ] Update project documentation.
-- [ ] Copy and paste code below into `README.md`:
+- [x] Update project documentation.
+- [x] Copy and paste code below into `README.md`:
 
 ```md
 # Infinity Cloud Solutions Landing Page

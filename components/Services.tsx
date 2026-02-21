@@ -32,7 +32,7 @@ export function Services() {
         {t.services.items.map((item, index) => (
           <motion.article
             key={item.title}
-            className="card-surface group rounded-2xl p-6"
+            className="card-surface interactive-card group rounded-2xl p-6"
             whileHover={{ y: -6, rotateX: -2, rotateY: index % 2 === 0 ? 2 : -2 }}
             transition={{ type: "spring", stiffness: 220, damping: 18 }}
             style={{ transformStyle: "preserve-3d" }}
