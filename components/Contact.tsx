@@ -1,6 +1,7 @@
 "use client";
 
-import { type FormEvent, useMemo, useState } from "react";
+import { type FormEvent, useMemo, useRef, useState } from "react";
+import { gsap, useGSAP } from "@/lib/gsap";
 import { useI18n } from "@/lib/i18n";
 
 type FormState = {
@@ -23,10 +24,47 @@ export function Contact() {
   const { t, lang } = useI18n();
   const [form, setForm] = useState<FormState>(initialState);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const container = useRef<HTMLElement>(null);
 
   const canSubmit = useMemo(
-    () => form.name.trim().length > 1 && form.email.includes("@") && form.message.trim().length >= 10,
+    () =>
+      form.name.trim().length > 1 &&
+      form.email.includes("@") &&
+      form.message.trim().length >= 10,
     [form]
+  );
+
+  useGSAP(
+    () => {
+      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReduced) return;
+
+      gsap.from(".contact-header", {
+        opacity: 0,
+        y: 22,
+        duration: 0.6,
+        ease: "icsEase",
+        scrollTrigger: {
+          trigger: ".contact-header",
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+      });
+
+      gsap.from(".contact-form", {
+        opacity: 0,
+        y: 36,
+        scale: 0.97,
+        duration: 0.7,
+        ease: "icsEase",
+        scrollTrigger: {
+          trigger: ".contact-form",
+          start: "top 86%",
+          toggleActions: "play none none none",
+        },
+      });
+    },
+    { scope: container }
   );
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -39,7 +77,7 @@ export function Contact() {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, locale: lang })
+        body: JSON.stringify({ ...form, locale: lang }),
       });
 
       if (!response.ok) {
@@ -55,12 +93,17 @@ export function Contact() {
   }
 
   return (
-    <section id="contact" className="section-wrap">
-      <p className="eyebrow">{t.contact.eyebrow}</p>
-      <h2 className="section-title mt-4 max-w-3xl text-3xl md:text-5xl">{t.contact.title}</h2>
-      <p className="mt-6 max-w-2xl text-[color:var(--text-muted)]">{t.contact.description}</p>
+    <section ref={container} id="contact" className="section-wrap">
+      <div className="contact-header">
+        <p className="eyebrow">{t.contact.eyebrow}</p>
+        <h2 className="section-title mt-4 max-w-3xl text-3xl md:text-5xl">{t.contact.title}</h2>
+        <p className="mt-6 max-w-2xl text-[color:var(--text-muted)]">{t.contact.description}</p>
+      </div>
 
-      <form onSubmit={onSubmit} className="card-surface interactive-card mt-10 grid gap-4 rounded-2xl p-6 md:grid-cols-2">
+      <form
+        onSubmit={onSubmit}
+        className="contact-form card-surface interactive-card mt-10 grid gap-4 rounded-2xl p-6 md:grid-cols-2"
+      >
         <label className="grid gap-2 text-sm">
           <span>{t.contact.fields.name}</span>
           <input

@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { JetBrains_Mono, Manrope, Sora } from "next/font/google";
 import { LanguageProvider } from "../lib/i18n";
 import SmoothScroll from "@/lib/SmoothScroll";
+import ThemeTransition from "@/components/ThemeTransition";
 
 const bodyFont = Manrope({
   subsets: ["latin"],
@@ -37,7 +38,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         style={{ backgroundColor: "#0a0a0a", color: "#f5f0eb" }}
       >
         <LanguageProvider>
-          <SmoothScroll>{children}</SmoothScroll>
+          <SmoothScroll>
+            <ThemeTransition />
+            {children}
+          </SmoothScroll>
         </LanguageProvider>
       </body>
     </html>

@@ -1,14 +1,37 @@
 "use client";
 
+import { useRef } from "react";
 import Link from "next/link";
+import { gsap, useGSAP } from "@/lib/gsap";
 import { useI18n } from "@/lib/i18n";
 
 export function Footer() {
   const { t } = useI18n();
+  const container = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReduced) return;
+
+      gsap.from(".footer-content", {
+        opacity: 0,
+        y: 18,
+        duration: 0.5,
+        ease: "icsEase",
+        scrollTrigger: {
+          trigger: container.current,
+          start: "top 92%",
+          toggleActions: "play none none none",
+        },
+      });
+    },
+    { scope: container }
+  );
 
   return (
-    <footer className="border-t border-white/10">
-      <div className="section-wrap py-10">
+    <footer ref={container} className="border-t border-white/10">
+      <div className="footer-content section-wrap py-10">
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
             <p className="font-[var(--font-display)] text-xl">Infinity Cloud Solutions</p>

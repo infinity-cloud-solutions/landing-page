@@ -112,27 +112,43 @@ a {
   box-shadow: 0 20px 40px -30px rgb(0 0 0 / 0.95), 0 14px 36px -30px rgb(232 93 38 / 0.65);
 }
 
-.nav-link {
-  position: relative;
+.navbar-base {
+  will-change: transform;
 }
 
-.nav-link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -0.35rem;
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, var(--accent-primary), var(--accent-tertiary));
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 240ms ease;
+/* Hints for elements frequently animated by GSAP */
+.hero-headline,
+.hero-image-wrap,
+.process-line,
+.marquee-track {
+  will-change: transform;
 }
 
-.nav-link:hover::after {
-  transform: scaleX(1);
-}
+@media (prefers-reduced-motion: reduce) {
+  .main-shell::before,
+  .main-shell::after,
+  .interactive-card,
+  .cta-button::before,
+  .nav-link::after {
+    animation: none !important;
+    transition: none !important;
+  }
 
+  .hero-headline,
+  .hero-image-wrap,
+  .process-line,
+  .marquee-track,
+  .navbar-base {
+    will-change: auto !important;
+  }
+
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
 .cta-button {
   position: relative;
   overflow: hidden;
@@ -178,6 +194,18 @@ a {
   .section-wrap {
     padding-block: 3.8rem;
   }
+}
+
+/* Navbar scroll styles (added for GSAP navbar behavior) */
+.navbar-base {
+  will-change: transform;
+}
+
+.navbar-scrolled {
+  border-color: rgb(255 255 255 / 0.1);
+  background: rgb(0 0 0 / 0.6);
+  backdrop-filter: blur(12px);
+  padding-block: 0.75rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
