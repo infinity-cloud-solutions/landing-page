@@ -1,0 +1,10 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0A0A0A"/>
+  <circle cx="230" cy="180" r="240" fill="#E85D26" fill-opacity="0.22"/>
+  <circle cx="980" cy="170" r="210" fill="#2DD4A8" fill-opacity="0.18"/>
+  <circle cx="760" cy="520" r="240" fill="#C4A265" fill-opacity="0.18"/>
+  <rect x="104" y="88" width="992" height="454" rx="32" fill="#141414" stroke="#2A2A2A"/>
+  <text x="148" y="250" fill="#F5F0EB" font-family="Arial, sans-serif" font-size="74" font-weight="700">Infinity Cloud Solutions</text>
+  <text x="148" y="320" fill="#F5F0EB" font-family="Arial, sans-serif" font-size="32" opacity="0.88">Automation and AI for small businesses in Mexico</text>
+  <text x="148" y="430" fill="#C4A265" font-family="monospace" font-size="24" letter-spacing="3">INDUSTRIAL LUXE • OPERATIONAL IMPACT</text>
+</svg>
