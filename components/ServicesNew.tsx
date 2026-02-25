@@ -10,7 +10,7 @@ gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 const icons = ['smart_toy', 'account_tree', 'insights', 'settings_suggest'] as const
 
-export function Services() {
+export default function Services() {
   const { t } = useI18n()
   const rootRef = useRef<HTMLElement | null>(null)
 

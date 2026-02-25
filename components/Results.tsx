@@ -1,83 +1,89 @@
-"use client";
+"use client"
 
-import { animate, motion, useInView } from "motion/react";
-import { useEffect, useRef, useState } from "react";
-import { useI18n } from "@/lib/i18n";
+import { useRef, useState } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useGSAP } from '@gsap/react'
+import { useI18n } from '@/lib/i18n'
 
-function useCountUp(target: number) {
-  const ref = useRef<HTMLSpanElement | null>(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
-  const [value, setValue] = useState(0);
+gsap.registerPlugin(ScrollTrigger, useGSAP)
 
-  useEffect(() => {
-    if (!inView) return;
-    const controls = animate(0, target, {
-      duration: 1.2,
-      ease: [0.16, 1, 0.3, 1],
-      onUpdate: (next) => setValue(Math.round(next))
-    });
-    return () => controls.stop();
-  }, [inView, target]);
-
-  return { ref, value };
+type Metric = {
+  label: string
+  value: number
+  suffix: string
 }
 
-function MetricCard({ label, value, suffix }: { label: string; value: number; suffix: string }) {
-  const { ref, value: count } = useCountUp(value);
+function MetricCard({ metric }: { metric: Metric }) {
+  const countRef = useRef<HTMLSpanElement | null>(null)
+  const [display, setDisplay] = useState(0)
+
+  useGSAP(
+    () => {
+      if (!countRef.current) return
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (reduceMotion) {
+        setDisplay(metric.value)
+        return
+      }
+
+      const counter = { value: 0 }
+      gsap.to(counter, {
+        value: metric.value,
+        duration: 1.2,
+        ease: 'power2.out',
+        onUpdate: () => setDisplay(Math.round(counter.value)),
+        scrollTrigger: {
+          trigger: countRef.current,
+          start: 'top 85%',
+          once: true,
+        },
+      })
+    },
+    { scope: countRef, dependencies: [metric.value] }
+  )
 
   return (
-    <article className="card-surface interactive-card rounded-2xl p-6">
-      <p className="font-[var(--font-mono)] text-xs uppercase tracking-[0.12em] text-[color:var(--accent-tertiary)]">
-        KPI
-      </p>
-      <span ref={ref} className="mt-4 block font-[var(--font-display)] text-5xl leading-none text-[color:var(--accent-primary)]">
-        {count}
-        {suffix}
+    <article className="rounded-3xl border border-slate-700/50 bg-slate-900/45 p-6">
+      <span ref={countRef} className="text-4xl font-extrabold text-blue-300 md:text-5xl">
+        {display}
+        {metric.suffix}
       </span>
-      <p className="mt-3 text-sm text-[color:var(--text-muted)]">{label}</p>
+      <p className="mt-3 text-sm text-slate-300">{metric.label}</p>
     </article>
-  );
+  )
 }
 
 export function Results() {
-  const { t } = useI18n();
+  const { t } = useI18n()
 
   return (
     <section id="results" className="section-wrap">
-      <motion.div
-        initial={{ opacity: 0, y: 22 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <p className="eyebrow">{t.results.eyebrow}</p>
-        <h2 className="section-title mt-4 max-w-3xl text-3xl md:text-5xl">{t.results.title}</h2>
-      </motion.div>
+      <p className="eyebrow">{t.results.eyebrow}</p>
+      <h2 className="section-title mt-4 max-w-3xl text-3xl md:text-5xl">{t.results.title}</h2>
 
-      <div className="mt-10 grid gap-5 md:grid-cols-3">
+      <div className="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
         {t.results.metrics.map((metric) => (
-          <MetricCard key={metric.label} label={metric.label} value={metric.value} suffix={metric.suffix} />
+          <MetricCard key={metric.label} metric={metric} />
         ))}
       </div>
 
-      <div className="mt-10 grid gap-5 md:grid-cols-2">
-        {t.results.testimonials.map((item, idx) => (
-          <motion.blockquote
-            key={item.author}
-            className="card-surface interactive-card rounded-2xl p-6"
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5, delay: idx * 0.08 }}
-          >
-            <p className="text-sm leading-relaxed text-[color:var(--text-primary)]">“{item.quote}”</p>
-            <footer className="mt-4">
-              <p className="font-semibold">{item.author}</p>
-              <p className="text-sm text-[color:var(--text-muted)]">{item.role}</p>
-            </footer>
-          </motion.blockquote>
-        ))}
+      <div className="mt-10 rounded-3xl border border-slate-700/50 bg-slate-900/45 p-7">
+        <div className="mb-4 flex gap-1 text-amber-300">
+          <span className="icon-outlined">star</span>
+          <span className="icon-outlined">star</span>
+          <span className="icon-outlined">star</span>
+          <span className="icon-outlined">star</span>
+          <span className="icon-outlined">star</span>
+        </div>
+        {t.results.testimonial && (
+          <>
+            <blockquote className="text-lg text-slate-100">“{t.results.testimonial.quote}”</blockquote>
+            <p className="mt-4 font-semibold">{t.results.testimonial.author}</p>
+            <p className="text-sm text-slate-300">{t.results.testimonial.role}</p>
+          </>
+        )}
       </div>
     </section>
-  );
+  )
 }

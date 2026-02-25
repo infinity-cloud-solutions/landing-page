@@ -1,92 +1,110 @@
-"use client";
-import React from "react";
-import { motion } from "framer-motion";
-import { useI18n } from "@/lib/i18n";
+"use client"
 
-const HERO_IMAGE = "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80";
+import { useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useGSAP } from '@gsap/react'
+import { useI18n } from '@/lib/i18n'
+
+gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 export default function Hero() {
-  const { t } = useI18n();
+  const { t } = useI18n()
+  const rootRef = useRef<HTMLElement | null>(null)
+
+  useGSAP(
+    () => {
+      if (!rootRef.current) return
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (reduceMotion) return
+
+      const introTargets = rootRef.current.querySelectorAll('[data-hero-intro]')
+
+      gsap.fromTo(
+        introTargets,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.75,
+          stagger: 0.12,
+          ease: 'power3.out',
+        }
+      )
+
+      gsap.to('[data-hero-media]', {
+        yPercent: 8,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: rootRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      })
+    },
+    { scope: rootRef }
+  )
 
   return (
-    <section className="hero pt-28 pb-16">
-      <div className="container">
-        <div className="grid md:grid-cols-2 gap-8 items-center">
-          <div>
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.6 }}
-              className="section-title text-4xl md:text-6xl"
-            >
-              {t.hero.title}
-            </motion.h1>
+    <section ref={rootRef} className="relative min-h-screen overflow-hidden pt-32">
+      <div data-hero-media className="absolute inset-0 -z-20">
+        <video
+          className="h-full w-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster="/images/hero-poster.jpg"
+        >
+          <source src="/videos/hero-bg.mp4" type="video/mp4" />
+        </video>
+      </div>
 
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-              className="mt-6 max-w-lg text-lg text-[color:var(--text-muted)]"
-            >
-              {t.hero.subtitle}
-            </motion.p>
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-slate-950/80 via-slate-950/55 to-[var(--bg-primary)]" />
+      <div className="orb orb-blue -left-28 top-20" />
+      <div className="orb orb-violet right-[-8rem] top-56" />
 
-            <motion.div className="mt-8 flex gap-4"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
-            >
-              <a href="#contact" className="cta-button rounded-md bg-[color:var(--accent-primary)] px-5 py-3 font-semibold text-black transition-transform hover:scale-105">{t.hero.primaryCta}</a>
-              <a href="#services" className="rounded-md border border-white/20 px-5 py-3 text-[color:var(--text-primary)] transition hover:bg-white/5">{t.hero.secondaryCta}</a>
-            </motion.div>
-          </div>
+      <div className="container pb-20">
+        <span
+          data-hero-intro
+          className="inline-flex rounded-full border border-blue-400/40 bg-slate-900/70 px-4 py-2 text-xs font-semibold tracking-wide text-slate-100"
+        >
+          {t.hero.badge}
+        </span>
 
-          <motion.div className="relative w-full h-56 md:h-80 rounded-md overflow-hidden"
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
+        <h1 data-hero-intro className="section-title mt-6 max-w-4xl text-5xl font-extrabold md:text-7xl">
+          {t.hero.title.split(' ').map((word, idx) => (
+            <span key={`${word}-${idx}`} className={idx >= 1 ? 'gradient-text' : ''}>
+              {word}{' '}
+            </span>
+          ))}
+        </h1>
+
+        <p data-hero-intro className="mt-6 max-w-2xl text-lg text-slate-200/90">
+          {t.hero.subtitle}
+        </p>
+
+        <div data-hero-intro className="mt-9 flex flex-wrap gap-3">
+          <a href="#contact" className="gradient-button rounded-full px-6 py-3 text-sm font-semibold shadow-lg shadow-blue-900/30">
+            {t.hero.primaryCta}
+          </a>
+          <a
+            href="#services"
+            className="rounded-full border border-slate-300/30 bg-slate-950/30 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:bg-slate-900/40"
           >
-            <motion.img
-              src={HERO_IMAGE}
-              alt="AI automation workspace"
-              className="absolute inset-0 h-full w-full object-cover"
-              initial={{ scale: 1.08 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 1.3, ease: "easeOut" }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/45 to-[color:var(--accent-primary)]/45" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(45,212,168,0.25),transparent_35%)]" />
-            <motion.div
-              className="absolute -left-8 top-6 h-24 w-24 rounded-full bg-white/20 blur-2xl"
-              animate={{ x: [0, 12, 0], y: [0, -10, 0], opacity: [0.35, 0.55, 0.35] }}
-              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.div
-              className="absolute right-8 bottom-6 h-20 w-20 rounded-full bg-[color:var(--accent-secondary)]/40 blur-2xl"
-              animate={{ x: [0, -10, 0], y: [0, 8, 0], opacity: [0.25, 0.45, 0.25] }}
-              transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <svg className="absolute inset-0 w-full h-full" viewBox="0 0 600 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="g1" x1="0" x2="1">
-                  <stop offset="0%" stopColor="#E85D26" stopOpacity="0.9" />
-                  <stop offset="100%" stopColor="#2DD4A8" stopOpacity="0.6" />
-                </linearGradient>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#g1)" opacity="0.06" />
-            </svg>
-
-            <div className="absolute bottom-4 left-4 right-4 flex flex-wrap gap-2">
-              <span className="rounded-full border border-white/30 bg-black/45 px-3 py-1 text-[11px] uppercase tracking-[0.08em] text-white/90">AI Workflows</span>
-              <span className="rounded-full border border-white/30 bg-black/45 px-3 py-1 text-[11px] uppercase tracking-[0.08em] text-white/90">Automation</span>
-              <span className="rounded-full border border-white/30 bg-black/45 px-3 py-1 text-[11px] uppercase tracking-[0.08em] text-white/90">Real ROI</span>
-            </div>
-          </motion.div>
+            {t.hero.secondaryCta}
+          </a>
         </div>
 
-        <div className="trust-row mt-8 flex flex-wrap gap-6 text-sm text-[color:var(--text-muted)]">
+        <div data-hero-intro className="mt-10 flex flex-wrap items-center gap-4 text-sm text-slate-200/80">
+          <div className="flex -space-x-2">
+            <span className="h-8 w-8 rounded-full border border-slate-300/40 bg-blue-500/40" />
+            <span className="h-8 w-8 rounded-full border border-slate-300/40 bg-violet-500/40" />
+            <span className="h-8 w-8 rounded-full border border-slate-300/40 bg-slate-300/30" />
+          </div>
           {t.hero.trust.map((item) => (
-            <div key={item}>{item}</div>
+            <span key={item}>{item}</span>
           ))}
         </div>
       </div>

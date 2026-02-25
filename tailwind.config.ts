@@ -9,20 +9,23 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        base: '#0A0A0A',
-        warm: '#F5F0EB',
-        accent: '#E85D26',
-        teal: '#2DD4A8',
-        gold: '#C4A265'
+        primary: '#3B82F6',
+        secondary: '#8B5CF6',
+        'bg-dark': '#020617',
+        'surface-dark': '#0F172A',
+        'bg-light': '#FAFBFF',
+        'surface-light': '#FFFFFF',
+      },
+      borderRadius: {
+        '3xl': '1.5rem',
       },
       fontFamily: {
         sans: ['var(--font-body)', 'ui-sans-serif', 'system-ui'],
-        display: ['var(--font-display)', 'ui-serif', 'system-ui'],
-        mono: ['var(--font-mono)', 'ui-monospace', 'monospace']
-      }
-    }
+        display: ['var(--font-display)', 'ui-sans-serif', 'system-ui'],
+      },
+    },
   },
-  plugins: []
+  plugins: [],
 }
 
 export default config
