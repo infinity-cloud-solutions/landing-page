@@ -9,8 +9,8 @@ import { useI18n } from '@/lib/i18n'
 
 gsap.registerPlugin(ScrollTrigger, MotionPathPlugin)
 
-const ORBIT_CURVE_X = 7
-const CURVE_START_DISTANCE_PROGRESS = 0.6
+const ORBIT_CURVE_X = 5
+const CURVE_START_DISTANCE_PROGRESS = 0.45
 
 function easeSineInOut(value: number) {
   return 0.5 - Math.cos(Math.PI * value) / 2
@@ -178,7 +178,7 @@ export default function Hero() {
 
       mm.add('(min-width: 768px)', () => {
         const curveX = ORBIT_CURVE_X
-        const curveStart = 0.61
+        const curveStart = CURVE_START_DISTANCE_PROGRESS
 
         gsap.fromTo(
           section.querySelector('[data-hero-badge]'),
@@ -275,10 +275,9 @@ export default function Hero() {
 
               if (rocketRef.current) {
                 let rot = 0
-                if (v > curveStart) {
-                  const local = (v - curveStart) / (1 - curveStart)
-                  rot = Math.min(maxTilt, local * maxTilt)
-                }
+                const local = Math.max(0, Math.min(1, (v - curveStart) / (1 - curveStart)))
+                const easedLocal = easeSineInOut(local)
+                rot = Math.min(maxTilt, easedLocal * maxTilt)
                 gsap.set(rocketRef.current, { rotation: rot, transformOrigin: '50% 50%' })
               }
             },
@@ -299,7 +298,7 @@ export default function Hero() {
 
       mm.add('(max-width: 767px)', () => {
         const curveX = ORBIT_CURVE_X
-        const curveStart = 0.61
+        const curveStart = CURVE_START_DISTANCE_PROGRESS
 
         gsap.fromTo(
           section.querySelector('[data-hero-badge]'),
@@ -395,10 +394,9 @@ export default function Hero() {
 
               if (rocketRef.current) {
                 let rot = 0
-                if (v > curveStart) {
-                  const local = (v - curveStart) / (1 - curveStart)
-                  rot = Math.min(maxTilt, local * maxTilt)
-                }
+                const local = Math.max(0, Math.min(1, (v - curveStart) / (1 - curveStart)))
+                const easedLocal = easeSineInOut(local)
+                rot = Math.min(maxTilt, easedLocal * maxTilt)
                 gsap.set(rocketRef.current, { rotation: rot, transformOrigin: '50% 50%' })
               }
             },
