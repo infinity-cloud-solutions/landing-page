@@ -74,6 +74,14 @@ export default function Navbar() {
             </a>
           </div>
         </div>
+
+        <nav className="mt-3 flex items-center gap-4 overflow-x-auto whitespace-nowrap text-xs text-slate-200 md:hidden">
+          <a href="#services" className="transition hover:text-white">{t.nav.services}</a>
+          <a href="#process" className="transition hover:text-white">{t.nav.process}</a>
+          <a href="#results" className="transition hover:text-white">{t.nav.results}</a>
+          <a href="#about" className="transition hover:text-white">{t.nav.about}</a>
+          <a href="#contact" className="font-semibold text-white/90 transition hover:text-white">{t.nav.cta}</a>
+        </nav>
       </div>
     </header>
   )

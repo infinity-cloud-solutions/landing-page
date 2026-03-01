@@ -12,7 +12,9 @@ export const translations = {
     },
     hero: {
       badge: 'Transformación Inteligente para PyMEs',
-      title: 'INFINITE POSSIBILITIES',
+      title: 'POSIBILIDADES INFINITAS',
+      titleTop: 'POSIBILIDADES INFINITAS',
+      titleReveal: 'con Automatización IA',
       subtitle:
         'Convertimos operaciones lentas en sistemas autónomos con IA y automatización aplicada a tu negocio.',
       primaryCta: 'Habla con un experto',
@@ -146,6 +148,8 @@ export const translations = {
     hero: {
       badge: 'Smart Transformation for SMBs',
       title: 'INFINITE POSSIBILITIES',
+      titleTop: 'INFINITE POSSIBILITIES',
+      titleReveal: 'with AI Automation',
       subtitle:
         'We transform slow operations into autonomous systems with practical AI and automation.',
       primaryCta: 'Talk to an expert',
