@@ -3,10 +3,11 @@
 import { useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import { useGSAP } from '@gsap/react'
 import { useI18n } from '@/lib/i18n'
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger, MotionPathPlugin)
 
 const ORBIT_CURVE_X = 7
 const CURVE_START_DISTANCE_PROGRESS = 0.6
@@ -197,7 +198,14 @@ export default function Hero() {
           { opacity: 1, duration: 0.8, delay: 1.2, ease: 'power2.out' }
         )
 
-        gsap.set(trailRef.current, { opacity: 0 })
+        if (trailRef.current) {
+          const pathEl = trailRef.current
+          const pathLength = pathEl.getTotalLength()
+          pathEl.style.strokeDasharray = String(pathLength)
+          pathEl.style.strokeDashoffset = String(pathLength)
+          pathEl.style.transition = 'none'
+          gsap.set(pathEl, { opacity: 0.82 })
+        }
 
         const tl = gsap.timeline({
           scrollTrigger: {
@@ -214,12 +222,12 @@ export default function Hero() {
 
         tl.fromTo(
           rocketRef.current,
-          { x: '0vw', y: '60vh', rotation: 0, opacity: 0, scale: 0.6 },
-          { x: '0vw', y: '0vh', rotation: 0, opacity: 1, scale: 1, duration: 0.35, ease: 'none' },
+          { rotation: 0, opacity: 0, scale: 0.6 },
+          { rotation: 0, opacity: 1, scale: 1, duration: 0.35, ease: 'none' },
           0
         )
 
-        tl.to(trailRef.current, { opacity: 0.82, duration: 0.18, ease: 'none' }, 0.4)
+        tl.to(trailRef.current, { opacity: 0.82, duration: 0.12, ease: 'none' }, 0)
 
         tl.to(cloudLeftRef.current, { x: '-120%', opacity: 0, duration: 0.25, ease: 'power2.in' }, 0.15)
         tl.to(cloudRightRef.current, { x: '120%', opacity: 0, duration: 0.25, ease: 'power2.in' }, 0.15)
@@ -232,29 +240,54 @@ export default function Hero() {
           0.3
         )
 
-        tl.to(
-          rocketRef.current,
-          {
-            y: '-110vh',
-            rotation: 0,
-            scale: 0.7,
-            duration: 0.35,
-            ease: 'power1.in',
-          },
-          0.4
-        )
+        if (trailRef.current && rocketRef.current) {
+          tl.to(
+            rocketRef.current!,
+            {
+              motionPath: {
+                path: trailRef.current!,
+                align: trailRef.current!,
+                alignOrigin: [0.5, 0.6],
+                autoRotate: false,
+              },
+              duration: 0.74,
+              ease: 'none',
+            },
+            0
+          )
+        }
 
-        tl.to(
-          rocketRef.current,
-          {
-            x: `${curveX}vw`,
-            duration: 0.14,
-            ease: 'sine.inOut',
-          },
-          curveStart
-        )
+        if (trailRef.current) {
+          const pathEl = trailRef.current
+          const len = pathEl.getTotalLength()
+          const proxy = { progress: 0 }
+          const lead = len * 0.06
+          const maxTilt = 45 // degrees to lean when curve starts
 
-        tl.to(trailRef.current, { opacity: 0, duration: 0.12 }, 0.74)
+          tl.to(proxy, {
+            progress: 1,
+            duration: 0.74,
+            ease: 'none',
+            onUpdate() {
+              const v = proxy.progress
+              const offset = Math.max(0, len * (1 - v) - lead)
+              pathEl.style.strokeDashoffset = String(offset)
+
+              if (rocketRef.current) {
+                let rot = 0
+                if (v > curveStart) {
+                  const local = (v - curveStart) / (1 - curveStart)
+                  rot = Math.min(maxTilt, local * maxTilt)
+                }
+                gsap.set(rocketRef.current, { rotation: rot, transformOrigin: '50% 50%' })
+              }
+            },
+          }, 0)
+
+          tl.to(pathEl, { opacity: 0, duration: 0.12 }, 0.74)
+        } else {
+          tl.to(trailRef.current, { opacity: 0, duration: 0.12 }, 0.74)
+        }
 
         tl.fromTo(
           ctaRef.current,
@@ -286,7 +319,14 @@ export default function Hero() {
           { opacity: 1, duration: 0.8, delay: 1.2, ease: 'power2.out' }
         )
 
-        gsap.set(trailRef.current, { opacity: 0 })
+        if (trailRef.current) {
+          const pathEl = trailRef.current
+          const pathLength = pathEl.getTotalLength()
+          pathEl.style.strokeDasharray = String(pathLength)
+          pathEl.style.strokeDashoffset = String(pathLength)
+          pathEl.style.transition = 'none'
+          gsap.set(pathEl, { opacity: 0.82 })
+        }
 
         const tl = gsap.timeline({
           scrollTrigger: {
@@ -303,12 +343,12 @@ export default function Hero() {
 
         tl.fromTo(
           rocketRef.current,
-          { x: '0vw', y: '60vh', rotation: 0, opacity: 0, scale: 0.62 },
-          { x: '0vw', y: '0vh', rotation: 0, opacity: 1, scale: 1, duration: 0.35, ease: 'none' },
+          { rotation: 0, opacity: 0, scale: 0.62 },
+          { rotation: 0, opacity: 1, scale: 1, duration: 0.35, ease: 'none' },
           0
         )
 
-        tl.to(trailRef.current, { opacity: 0.82, duration: 0.18, ease: 'none' }, 0.4)
+        tl.to(trailRef.current, { opacity: 0.82, duration: 0.12, ease: 'none' }, 0)
 
         tl.to(cloudLeftRef.current, { x: '-120%', opacity: 0, duration: 0.25, ease: 'power2.in' }, 0.15)
         tl.to(cloudRightRef.current, { x: '120%', opacity: 0, duration: 0.25, ease: 'power2.in' }, 0.15)
@@ -321,29 +361,53 @@ export default function Hero() {
           0.3
         )
 
-        tl.to(
-          rocketRef.current,
-          {
-            y: '-110vh',
-            rotation: 0,
-            scale: 0.72,
-            duration: 0.35,
-            ease: 'power1.in',
-          },
-          0.4
-        )
+        if (trailRef.current && rocketRef.current) {
+          tl.to(
+            rocketRef.current!,
+            {
+              motionPath: {
+                path: trailRef.current!,
+                align: trailRef.current!,
+                alignOrigin: [0.5, 0.6],
+                autoRotate: false,
+              },
+              duration: 0.74,
+              ease: 'none',
+            },
+            0
+          )
+        }
 
-        tl.to(
-          rocketRef.current,
-          {
-            x: `${curveX}vw`,
-            duration: 0.14,
-            ease: 'sine.inOut',
-          },
-          curveStart
-        )
+        if (trailRef.current) {
+          const pathEl = trailRef.current
+          const len = pathEl.getTotalLength()
+          const proxy = { progress: 0 }
+          const lead = len * 0.06
+          const maxTilt = 8 // degrees for mobile
+          tl.to(proxy, {
+            progress: 1,
+            duration: 0.74,
+            ease: 'none',
+            onUpdate() {
+              const v = proxy.progress
+              const offset = Math.max(0, len * (1 - v) - lead)
+              pathEl.style.strokeDashoffset = String(offset)
 
-        tl.to(trailRef.current, { opacity: 0, duration: 0.12 }, 0.74)
+              if (rocketRef.current) {
+                let rot = 0
+                if (v > curveStart) {
+                  const local = (v - curveStart) / (1 - curveStart)
+                  rot = Math.min(maxTilt, local * maxTilt)
+                }
+                gsap.set(rocketRef.current, { rotation: rot, transformOrigin: '50% 50%' })
+              }
+            },
+          }, 0)
+
+          tl.to(pathEl, { opacity: 0, duration: 0.12 }, 0.74)
+        } else {
+          tl.to(trailRef.current, { opacity: 0, duration: 0.12 }, 0.74)
+        }
 
         tl.fromTo(
           ctaRef.current,
@@ -427,7 +491,7 @@ export default function Hero() {
 
       <div
         ref={rocketRef}
-        className="pointer-events-none absolute left-1/2 top-1/2 z-40 -translate-x-1/2 -translate-y-1/2"
+        className="pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2"
         style={{ opacity: 0 }}
       >
         <RocketSVG />
