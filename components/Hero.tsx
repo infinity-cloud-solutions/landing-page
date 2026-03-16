@@ -19,6 +19,8 @@ function easeSineInOut(value: number) {
 function buildTrailPath(curveX: number) {
   const points: string[] = ['M50 100']
   const segments = 24
+  let lastX = 50
+  const minStep = 0.2
 
   for (let index = 1; index <= segments; index += 1) {
     const timeProgress = index / segments
@@ -31,9 +33,12 @@ function buildTrailPath(curveX: number) {
         (yProgress - CURVE_START_DISTANCE_PROGRESS) / (1 - CURVE_START_DISTANCE_PROGRESS)
       const eased = easeSineInOut(localProgress)
       x = 50 + curveX * eased
+      // Prevent the path from moving left: always advance x by at least `minStep`
+      if (x < lastX + minStep) x = lastX + minStep
     }
 
     points.push(`L${x.toFixed(2)} ${y.toFixed(2)}`)
+    lastX = x
   }
 
   return points.join(' ')
@@ -274,11 +279,16 @@ export default function Hero() {
               pathEl.style.strokeDashoffset = String(offset)
 
               if (rocketRef.current) {
-                let rot = 0
-                const local = Math.max(0, Math.min(1, (v - curveStart) / (1 - curveStart)))
-                const easedLocal = easeSineInOut(local)
-                rot = Math.min(maxTilt, easedLocal * maxTilt)
-                gsap.set(rocketRef.current, { rotation: rot, transformOrigin: '50% 50%' })
+                // compute a small current length along the path and a point slightly ahead
+                const curLen = Math.max(0, Math.min(len, len * v))
+                const aheadLen = Math.min(len, curLen + Math.max(1, len * 0.01))
+                const p = pathEl.getPointAtLength(curLen)
+                const a = pathEl.getPointAtLength(aheadLen)
+                // angle of tangent in degrees
+                const angle = (Math.atan2(a.y - p.y, a.x - p.x) * 180) / Math.PI
+                // Rocket SVG points up by default; add 90deg so it points along tangent
+                const rotation = angle + 90
+                gsap.set(rocketRef.current, { rotation, transformOrigin: '50% 50%' })
               }
             },
           }, 0)
@@ -393,11 +403,13 @@ export default function Hero() {
               pathEl.style.strokeDashoffset = String(offset)
 
               if (rocketRef.current) {
-                let rot = 0
-                const local = Math.max(0, Math.min(1, (v - curveStart) / (1 - curveStart)))
-                const easedLocal = easeSineInOut(local)
-                rot = Math.min(maxTilt, easedLocal * maxTilt)
-                gsap.set(rocketRef.current, { rotation: rot, transformOrigin: '50% 50%' })
+                const curLen = Math.max(0, Math.min(len, len * v))
+                const aheadLen = Math.min(len, curLen + Math.max(1, len * 0.01))
+                const p = pathEl.getPointAtLength(curLen)
+                const a = pathEl.getPointAtLength(aheadLen)
+                const angle = (Math.atan2(a.y - p.y, a.x - p.x) * 180) / Math.PI
+                const rotation = angle + 90
+                gsap.set(rocketRef.current, { rotation: rotation, transformOrigin: '50% 50%' })
               }
             },
           }, 0)
