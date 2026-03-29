@@ -47,12 +47,12 @@ export function Services() {
           <article
             key={item.title}
             data-service-card
-            className="group relative overflow-hidden rounded-3xl border border-slate-700/50 bg-slate-900/50 p-6 backdrop-blur-sm"
+            className="group relative overflow-hidden rounded-3xl theme-card p-6"
           >
-            <div className="absolute inset-0 rounded-3xl border border-transparent transition group-hover:border-blue-400/60" />
-            <span className="icon-outlined text-3xl text-blue-400">{icons[index]}</span>
-            <h3 className="mt-5 text-xl font-semibold text-slate-100">{item.title}</h3>
-            <p className="mt-3 text-sm text-slate-300">{item.description}</p>
+            <div className="absolute inset-0 rounded-3xl border border-transparent transition group-hover:border-blue-500/60" />
+            <span className="icon-outlined text-3xl text-[color:var(--icon-accent)]">{icons[index]}</span>
+            <h3 className="mt-5 text-xl font-semibold text-[color:var(--text-primary)]">{item.title}</h3>
+            <p className="mt-3 text-sm text-[color:var(--text-muted)]">{item.description}</p>
           </article>
         ))}
       </div>
