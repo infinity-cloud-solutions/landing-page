@@ -61,21 +61,21 @@ export function Contact() {
       <p className="mt-6 max-w-2xl text-[color:var(--text-muted)]">{t.contact.description}</p>
 
       <div className="mt-10 grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
-        <aside className="rounded-3xl border border-slate-700/50 bg-slate-900/45 p-6">
+        <aside className="rounded-3xl theme-card p-6">
           <h3 className="text-xl font-semibold">{t.contact.infoTitle}</h3>
-          <p className="mt-2 text-sm text-slate-300">{t.contact.infoSubtitle}</p>
+          <p className="mt-2 text-sm text-[color:var(--text-muted)]">{t.contact.infoSubtitle}</p>
 
           <ul className="mt-6 space-y-4">
             {t.contact.infoItems.map((item) => (
-              <li key={item.label} className="flex items-center gap-3 text-sm text-slate-200">
-                <span className="icon-outlined text-blue-300">{item.icon}</span>
+              <li key={item.label} className="flex items-center gap-3 text-sm text-[color:var(--text-primary)]">
+                <span className="icon-outlined text-[color:var(--icon-accent)]">{item.icon}</span>
                 <span>{item.label}</span>
               </li>
             ))}
           </ul>
         </aside>
 
-        <form onSubmit={onSubmit} className="rounded-3xl border border-slate-700/50 bg-slate-900/45 p-6">
+        <form onSubmit={onSubmit} className="rounded-3xl theme-card p-6">
           <div className="grid gap-4 md:grid-cols-2">
             <label className="grid gap-2 text-sm">
               <span>{t.contact.fields.name}</span>
@@ -83,7 +83,7 @@ export function Contact() {
                 required
                 value={form.name}
                 onChange={(event) => setForm((prev) => ({ ...prev, name: event.target.value }))}
-                className="h-11 rounded-xl border border-slate-600/70 bg-slate-950/40 px-3 outline-none"
+                className="h-11 rounded-xl theme-input px-3 outline-none"
                 name="name"
                 autoComplete="name"
               />
@@ -96,7 +96,7 @@ export function Contact() {
                 type="email"
                 value={form.email}
                 onChange={(event) => setForm((prev) => ({ ...prev, email: event.target.value }))}
-                className="h-11 rounded-xl border border-slate-600/70 bg-slate-950/40 px-3 outline-none"
+                className="h-11 rounded-xl theme-input px-3 outline-none"
                 name="email"
                 autoComplete="email"
               />
@@ -107,7 +107,7 @@ export function Contact() {
               <input
                 value={form.company}
                 onChange={(event) => setForm((prev) => ({ ...prev, company: event.target.value }))}
-                className="h-11 rounded-xl border border-slate-600/70 bg-slate-950/40 px-3 outline-none"
+                className="h-11 rounded-xl theme-input px-3 outline-none"
                 name="company"
                 autoComplete="organization"
               />
@@ -118,7 +118,7 @@ export function Contact() {
               <input
                 value={form.phone}
                 onChange={(event) => setForm((prev) => ({ ...prev, phone: event.target.value }))}
-                className="h-11 rounded-xl border border-slate-600/70 bg-slate-950/40 px-3 outline-none"
+                className="h-11 rounded-xl theme-input px-3 outline-none"
                 name="phone"
                 autoComplete="tel"
               />
@@ -132,7 +132,7 @@ export function Contact() {
               rows={6}
               value={form.message}
               onChange={(event) => setForm((prev) => ({ ...prev, message: event.target.value }))}
-              className="rounded-xl border border-slate-600/70 bg-slate-950/40 p-3 outline-none"
+              className="rounded-xl theme-input p-3 outline-none"
               name="message"
             />
           </label>
@@ -146,8 +146,8 @@ export function Contact() {
               {status === 'loading' ? t.contact.loading : t.contact.submit}
             </button>
 
-            {status === 'success' && <p className="text-sm text-emerald-300">{t.contact.success}</p>}
-            {status === 'error' && <p className="text-sm text-rose-300">{t.contact.error}</p>}
+            {status === 'success' && <p className="text-sm text-[color:var(--success-text)]">{t.contact.success}</p>}
+            {status === 'error' && <p className="text-sm text-[color:var(--error-text)]">{t.contact.error}</p>}
           </div>
         </form>
       </div>

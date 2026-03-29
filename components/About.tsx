@@ -41,10 +41,10 @@ export function About() {
 
       <div className="mt-10 grid gap-5 md:grid-cols-3">
         {t.about.cards.map((card) => (
-          <article key={card.title} data-about-card className="rounded-3xl border border-slate-700/50 bg-slate-900/45 p-6 backdrop-blur-sm">
-            <span className="icon-outlined text-3xl text-blue-300">{card.icon}</span>
+          <article key={card.title} data-about-card className="rounded-3xl theme-card p-6">
+            <span className="icon-outlined text-3xl text-[color:var(--icon-accent)]">{card.icon}</span>
             <h3 className="mt-4 text-xl font-semibold">{card.title}</h3>
-            <p className="mt-3 text-sm text-slate-300">{card.description}</p>
+            <p className="mt-3 text-sm text-[color:var(--text-muted)]">{card.description}</p>
           </article>
         ))}
       </div>

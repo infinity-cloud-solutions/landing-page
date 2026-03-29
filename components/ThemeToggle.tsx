@@ -36,7 +36,7 @@ export function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-600/70 bg-slate-900/70 text-slate-100 transition hover:border-slate-400 hover:bg-slate-800/80"
+      className="inline-flex h-10 w-10 items-center justify-center rounded-full border theme-toggle-btn transition"
     >
       <span className="icon-outlined text-[20px]">{mode === 'dark' ? 'light_mode' : 'dark_mode'}</span>
     </button>

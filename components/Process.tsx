@@ -77,15 +77,15 @@ export function Process() {
 
         <div className="grid gap-5 md:grid-cols-4">
           {t.process.steps.map((step, index) => (
-            <article key={step.title} data-step-card className="relative rounded-3xl border border-slate-700/50 bg-slate-900/45 p-6">
+            <article key={step.title} data-step-card className="relative rounded-3xl theme-card p-6">
               <div className="mb-4 flex items-center gap-3">
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border-4 border-blue-500 text-sm font-bold text-slate-100">
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border-4 border-blue-500 text-sm font-bold text-[color:var(--text-primary)]">
                   {index + 1}
                 </span>
-                <span className="icon-outlined text-violet-300">{icons[index]}</span>
+                <span className="icon-outlined text-[color:var(--icon-secondary)]">{icons[index]}</span>
               </div>
               <h3 className="text-xl font-semibold">{step.title}</h3>
-              <p className="mt-2 text-sm text-slate-300">{step.description}</p>
+              <p className="mt-2 text-sm text-[color:var(--text-muted)]">{step.description}</p>
             </article>
           ))}
         </div>

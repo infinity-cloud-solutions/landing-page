@@ -44,12 +44,12 @@ function MetricCard({ metric }: { metric: Metric }) {
   )
 
   return (
-    <article className="rounded-3xl border border-slate-700/50 bg-slate-900/45 p-6">
-      <span ref={countRef} className="text-4xl font-extrabold text-blue-300 md:text-5xl">
+    <article className="rounded-3xl theme-card p-6">
+      <span ref={countRef} className="text-4xl font-extrabold text-[color:var(--metric-accent)] md:text-5xl">
         {display}
         {metric.suffix}
       </span>
-      <p className="mt-3 text-sm text-slate-300">{metric.label}</p>
+      <p className="mt-3 text-sm text-[color:var(--text-muted)]">{metric.label}</p>
     </article>
   )
 }
@@ -68,8 +68,8 @@ export function Results() {
         ))}
       </div>
 
-      <div className="mt-10 rounded-3xl border border-slate-700/50 bg-slate-900/45 p-7">
-        <div className="mb-4 flex gap-1 text-amber-300">
+      <div className="mt-10 rounded-3xl theme-card p-7">
+        <div className="mb-4 flex gap-1 text-[color:var(--star-color)]">
           <span className="icon-outlined">star</span>
           <span className="icon-outlined">star</span>
           <span className="icon-outlined">star</span>
@@ -78,9 +78,9 @@ export function Results() {
         </div>
         {t.results.testimonial && (
           <>
-            <blockquote className="text-lg text-slate-100">“{t.results.testimonial.quote}”</blockquote>
+            <blockquote className="text-lg text-[color:var(--text-primary)]">"{t.results.testimonial.quote}"</blockquote>
             <p className="mt-4 font-semibold">{t.results.testimonial.author}</p>
-            <p className="text-sm text-slate-300">{t.results.testimonial.role}</p>
+            <p className="text-sm text-[color:var(--text-muted)]">{t.results.testimonial.role}</p>
           </>
         )}
       </div>

@@ -50,17 +50,17 @@ export default function Navbar() {
 
   return (
     <header ref={navRef} className="fixed top-0 z-50 w-full">
-      <div className="mx-auto mt-4 w-[min(1120px,92vw)] rounded-2xl border border-slate-700/50 bg-slate-950/80 px-4 py-3 backdrop-blur-xl md:px-6">
+      <div className="mx-auto mt-4 w-[min(1120px,92vw)] rounded-2xl border theme-nav px-4 py-3 md:px-6">
         <div className="flex items-center justify-between gap-4">
           <Link href="#" className="flex items-center gap-3" aria-label="Infinity AI Cloud Solutions">
             <Image src="/images/logo.png" alt="Infinity logo" width={160} height={40} className="h-10 w-auto" priority />
           </Link>
 
-          <nav className="hidden items-center gap-6 text-sm text-slate-200 md:flex">
-            <a href="#services" className="transition hover:text-white">{t.nav.services}</a>
-            <a href="#process" className="transition hover:text-white">{t.nav.process}</a>
-            <a href="#results" className="transition hover:text-white">{t.nav.results}</a>
-            <a href="#about" className="transition hover:text-white">{t.nav.about}</a>
+          <nav className="hidden items-center gap-6 text-sm md:flex">
+            <a href="#services" className="nav-link">{t.nav.services}</a>
+            <a href="#process" className="nav-link">{t.nav.process}</a>
+            <a href="#results" className="nav-link">{t.nav.results}</a>
+            <a href="#about" className="nav-link">{t.nav.about}</a>
           </nav>
 
           <div className="flex items-center gap-2 md:gap-3">
@@ -75,12 +75,12 @@ export default function Navbar() {
           </div>
         </div>
 
-        <nav className="mt-3 flex items-center gap-4 overflow-x-auto whitespace-nowrap text-xs text-slate-200 md:hidden">
-          <a href="#services" className="transition hover:text-white">{t.nav.services}</a>
-          <a href="#process" className="transition hover:text-white">{t.nav.process}</a>
-          <a href="#results" className="transition hover:text-white">{t.nav.results}</a>
-          <a href="#about" className="transition hover:text-white">{t.nav.about}</a>
-          <a href="#contact" className="font-semibold text-white/90 transition hover:text-white">{t.nav.cta}</a>
+        <nav className="mt-3 flex items-center gap-4 overflow-x-auto whitespace-nowrap text-xs md:hidden">
+          <a href="#services" className="nav-link">{t.nav.services}</a>
+          <a href="#process" className="nav-link">{t.nav.process}</a>
+          <a href="#results" className="nav-link">{t.nav.results}</a>
+          <a href="#about" className="nav-link">{t.nav.about}</a>
+          <a href="#contact" className="nav-link font-semibold">{t.nav.cta}</a>
         </nav>
       </div>
     </header>
