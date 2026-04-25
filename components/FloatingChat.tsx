@@ -40,7 +40,7 @@ export function FloatingChat() {
       href="https://wa.me/5200000000000"
       target="_blank"
       rel="noreferrer"
-      className="fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full gradient-button px-4 py-3 text-sm font-semibold shadow-[0_0_0_0_rgba(59,130,246,0.6)] animate-[pulse_2.2s_infinite]"
+      className="fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full gradient-button px-4 py-3 text-sm font-semibold"
       aria-label={t.footer.chatCta}
     >
       <span className="icon-outlined text-[20px]">chat</span>

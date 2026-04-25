@@ -7,3 +7,7 @@ dist/
 pnpm-lock.yaml
 plans/
 public/
+
+.agents/
+.claude/
+.github/
