@@ -4,6 +4,7 @@ import { Process } from '@/components/Process'
 import { Results } from '@/components/Results'
 import { Services } from '@/components/Services'
 import { About } from '@/components/About'
+import { FAQ } from '@/components/FAQ'
 import { Contact } from '@/components/Contact'
 import { Footer } from '@/components/Footer'
 import { FloatingChat } from '@/components/FloatingChat'
@@ -19,6 +20,7 @@ export default function HomePage() {
         <Process />
         <Results />
         <About />
+        <FAQ />
         <Contact />
         <Footer />
         <FloatingChat />
