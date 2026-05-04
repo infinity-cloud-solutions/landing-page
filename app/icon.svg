@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Background: deep navy -->
+  <rect width="32" height="32" rx="7" fill="#0b0f1c"/>
+  <!-- Nose cone -->
+  <path d="M16 2C14 2 11 8 11 13L21 13C21 8 18 2 16 2Z" fill="#d49010"/>
+  <!-- Body -->
+  <rect x="11" y="13" width="10" height="9" fill="#d49010"/>
+  <!-- Porthole -->
+  <circle cx="16" cy="17" r="1.8" fill="#1a2440"/>
+  <!-- Left fin -->
+  <path d="M11 16L6 26L11 23Z" fill="#9a6808"/>
+  <!-- Right fin -->
+  <path d="M21 16L26 26L21 23Z" fill="#9a6808"/>
+  <!-- Engine nozzle -->
+  <path d="M11 22L10 25.5L22 25.5L21 22Z" fill="#7a5006"/>
+  <!-- Flame outer -->
+  <ellipse cx="16" cy="29" rx="3" ry="3.5" fill="#f0a020" opacity="0.85"/>
+  <!-- Flame mid -->
+  <ellipse cx="16" cy="28.5" rx="1.8" ry="2.5" fill="#ffe080"/>
+  <!-- Flame core -->
+  <ellipse cx="16" cy="27.5" rx="0.9" ry="1.5" fill="#fff4cc"/>
+</svg>
