@@ -152,8 +152,9 @@ html[data-theme='light'] {
 }
 
 .gold-button:hover {
-  filter: brightness(1.1);
-  box-shadow: 0 0 28px oklch(74% 0.15 58 / 0.5);
+  filter: brightness(1.08);
+  box-shadow: 0 6px 24px oklch(74% 0.15 58 / 0.28),
+              inset 0 1px 0 oklch(100% 0 0 / 0.15);
 }
 
 .gold-button:active {

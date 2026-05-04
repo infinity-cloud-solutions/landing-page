@@ -121,8 +121,8 @@ export const translations = {
       infoSubtitle: 'Tu equipo de IA y automatización, en México.',
       infoItems: [
         { icon: 'mail', label: 'hola@infinitycloudsolutions.com', href: 'mailto:hola@infinitycloudsolutions.com' },
-        { icon: 'chat', label: 'WhatsApp · +52 55 XXXX XXXX', href: 'https://wa.me/52XXXXXXXXXX' },
-        { icon: 'location_on', label: 'Ciudad de México, MX', href: '' },
+        { icon: 'chat', label: 'WhatsApp · +52 81 1979 7180', href: 'https://wa.me/528119797180' },
+        { icon: 'location_on', label: 'Monterrey, MX', href: '' },
       ],
       fields: {
         name: 'Nombre',
@@ -295,8 +295,8 @@ export const translations = {
       infoSubtitle: 'Your AI and automation team, based in Mexico.',
       infoItems: [
         { icon: 'mail', label: 'hello@infinitycloudsolutions.com', href: 'mailto:hello@infinitycloudsolutions.com' },
-        { icon: 'chat', label: 'WhatsApp · +52 55 XXXX XXXX', href: 'https://wa.me/52XXXXXXXXXX' },
-        { icon: 'location_on', label: 'Mexico City, MX', href: '' },
+        { icon: 'chat', label: 'WhatsApp · +52 81 1979 7180', href: 'https://wa.me/528119797180' },
+        { icon: 'location_on', label: 'Monterrey, MX', href: '' },
       ],
       fields: {
         name: 'Name',

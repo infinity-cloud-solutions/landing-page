@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useEffect, useCallback } from 'react'
+import { useRef, useEffect, useCallback, Fragment } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
@@ -176,15 +176,17 @@ function StarfieldCanvas() {
 
 // ── Particle trail canvas ────────────────────────────────────────────────────
 
-type Particle = {
+type FlareParticle = {
   x: number
   y: number
   vx: number
   vy: number
   life: number
   maxLife: number
-  size: number
-  hue: number // 58 = gold, 192 = teal
+  coreR: number
+  spikeLen: number
+  spikeAngle: number
+  hue: number
   bright: number
 }
 
@@ -192,9 +194,9 @@ type ParticleCanvasHandle = {
   spawn: (x: number, y: number, dirX: number, dirY: number) => void
 }
 
-function ParticleCanvas({ handleRef }: { handleRef: React.RefObject<ParticleCanvasHandle | null> }) {
+function FlareCanvas({ handleRef }: { handleRef: React.RefObject<ParticleCanvasHandle | null> }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const particlesRef = useRef<Particle[]>([])
+  const particlesRef = useRef<FlareParticle[]>([])
   const rafRef = useRef<number>(0)
 
   useEffect(() => {
@@ -221,30 +223,63 @@ function ParticleCanvas({ handleRef }: { handleRef: React.RefObject<ParticleCanv
         const p = particlesRef.current[i]
         p.x += p.vx
         p.y += p.vy
-        p.vy += 0.04
         p.life--
 
-        const progress = p.life / p.maxLife
-        const alpha = progress * progress * 0.85
-        const r = p.size * progress
+        const t = p.life / p.maxLife
+        // Quick to full brightness, then smooth fade — matches the shader's sharp 1/d falloff feel
+        const alpha = Math.pow(t, 1.5) * 0.92
 
+        ctx.save()
         ctx.globalAlpha = alpha
-        const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r * 3)
-        gradient.addColorStop(0, `oklch(${p.bright}% 0.16 ${p.hue})`)
-        gradient.addColorStop(0.4, `oklch(${p.bright - 8}% 0.14 ${p.hue})`)
-        gradient.addColorStop(1, 'transparent')
-        ctx.fillStyle = gradient
+        ctx.translate(p.x, p.y)
+
+        // Core: hot white center → saturated color → transparent (sharp 1/r feel)
+        const core = ctx.createRadialGradient(0, 0, 0, 0, 0, p.coreR)
+        core.addColorStop(0, 'rgb(255, 252, 235)')
+        core.addColorStop(0.22, `oklch(${p.bright}% 0.22 ${p.hue})`)
+        core.addColorStop(0.62, `oklch(${p.bright - 14}% 0.15 ${p.hue})`)
+        core.addColorStop(1, 'transparent')
+        ctx.fillStyle = core
         ctx.beginPath()
-        ctx.arc(p.x, p.y, r * 3, 0, Math.PI * 2)
+        ctx.arc(0, 0, p.coreR, 0, Math.PI * 2)
         ctx.fill()
+
+        // Primary spike — anamorphic lens flare streak (perpendicular to travel direction)
+        ctx.rotate(p.spikeAngle)
+        const hGrad = ctx.createLinearGradient(-p.spikeLen, 0, p.spikeLen, 0)
+        hGrad.addColorStop(0, 'transparent')
+        hGrad.addColorStop(0.3, `oklch(${p.bright}% 0.2 ${p.hue})`)
+        hGrad.addColorStop(0.5, 'rgb(255, 252, 235)')
+        hGrad.addColorStop(0.7, `oklch(${p.bright}% 0.2 ${p.hue})`)
+        hGrad.addColorStop(1, 'transparent')
+        ctx.strokeStyle = hGrad
+        ctx.lineWidth = 1.1
+        ctx.beginPath()
+        ctx.moveTo(-p.spikeLen, 0)
+        ctx.lineTo(p.spikeLen, 0)
+        ctx.stroke()
+
+        // Secondary perpendicular spike (shorter, softer — the shader's vertical Y streak)
+        const vLen = p.spikeLen * 0.42
+        const vGrad = ctx.createLinearGradient(0, -vLen, 0, vLen)
+        vGrad.addColorStop(0, 'transparent')
+        vGrad.addColorStop(0.45, `oklch(${p.bright}% 0.18 ${p.hue})`)
+        vGrad.addColorStop(0.55, `oklch(${p.bright}% 0.18 ${p.hue})`)
+        vGrad.addColorStop(1, 'transparent')
+        ctx.strokeStyle = vGrad
+        ctx.lineWidth = 0.65
+        ctx.beginPath()
+        ctx.moveTo(0, -vLen)
+        ctx.lineTo(0, vLen)
+        ctx.stroke()
+
+        ctx.restore()
 
         if (p.life <= 0) {
           particlesRef.current.splice(i, 1)
         }
       }
 
-      ctx.globalAlpha = 1
-      // Stop the loop when idle — spawn() will restart it
       if (particlesRef.current.length > 0) {
         rafRef.current = requestAnimationFrame(draw)
       } else {
@@ -252,28 +287,44 @@ function ParticleCanvas({ handleRef }: { handleRef: React.RefObject<ParticleCanv
       }
     }
 
-    // Expose spawn; keeps draw in the same closure so it can restart the loop
     if (handleRef) {
       ;(handleRef as React.MutableRefObject<ParticleCanvasHandle>).current = {
         spawn(x: number, y: number, dirX: number, dirY: number) {
-          const count = 5
-          for (let i = 0; i < count; i++) {
-            const angle = Math.atan2(dirY, dirX) + Math.PI + (Math.random() - 0.5) * 1.2
-            const speed = Math.random() * 1.8 + 0.4
-            const isGold = Math.random() > 0.35
+          const count = 3
+          const mag = Math.sqrt(dirX * dirX + dirY * dirY) || 1
+          const nx = dirX / mag
+          const ny = dirY / mag
+          const travelAngle = Math.atan2(ny, nx)
+          const backAngle = travelAngle + Math.PI
+
+          // Start flares already offset behind the rocket center so they
+          // never appear in front regardless of frame timing
+          const behindOffset = 26
+          const baseX = x - nx * behindOffset
+          const baseY = y - ny * behindOffset
+
+          for (let j = 0; j < count; j++) {
+            // Narrow scatter (±0.38 rad ≈ ±22°) keeps flares on the trail axis
+            const scatter = (Math.random() - 0.5) * 0.38
+            const speed = Math.random() * 0.85 + 0.2
+            const isGold = Math.random() > 0.3
+            const spikeAngle = travelAngle + Math.PI / 2 + (Math.random() - 0.5) * 0.3
+
             particlesRef.current.push({
-              x,
-              y,
-              vx: Math.cos(angle) * speed,
-              vy: Math.sin(angle) * speed - 0.3,
-              life: Math.floor(Math.random() * 30 + 30),
-              maxLife: 60,
-              size: Math.random() * 2.2 + 0.8,
-              hue: isGold ? 58 : 192,
-              bright: isGold ? 80 : 72,
+              x: baseX + (Math.random() - 0.5) * 3,
+              y: baseY + (Math.random() - 0.5) * 3,
+              vx: Math.cos(backAngle + scatter) * speed,
+              vy: Math.sin(backAngle + scatter) * speed,
+              life: Math.floor(Math.random() * 20 + 16),
+              maxLife: 36,
+              coreR: Math.random() * 5 + 3,
+              spikeLen: Math.random() * 22 + 13,
+              spikeAngle,
+              hue: isGold ? 52 : 188,
+              bright: isGold ? 78 : 68,
             })
           }
-          // Restart the draw loop if it went idle
+
           if (!rafRef.current) {
             rafRef.current = requestAnimationFrame(draw)
           }
@@ -452,11 +503,12 @@ export default function Hero() {
     if (!rocketRef.current || !sectionRef.current || !particleHandle.current) return
     const rocketRect = rocketRef.current.getBoundingClientRect()
     const sectionRect = sectionRef.current.getBoundingClientRect()
+    // Bounding-box center is stable regardless of rotation (unlike a % offset from top/left)
     const cx = rocketRect.left + rocketRect.width / 2 - sectionRect.left
-    const cy = rocketRect.top + rocketRect.height * 0.75 - sectionRect.top // nozzle approx
+    const cy = rocketRect.top + rocketRect.height / 2 - sectionRect.top
 
     const prev = lastParticlePos.current
-    const dirX = prev ? cx - prev.x : 0
+    const dirX = prev ? cx - prev.x : 0.5
     const dirY = prev ? cy - prev.y : 1
     lastParticlePos.current = { x: cx, y: cy }
 
@@ -647,7 +699,7 @@ export default function Hero() {
   ))
 
   return (
-    <section ref={sectionRef} className="relative h-screen w-full overflow-hidden">
+    <section ref={sectionRef} className="relative h-[100dvh] w-full overflow-hidden">
       {/* Canvas starfield */}
       <StarfieldCanvas />
 
@@ -665,8 +717,8 @@ export default function Hero() {
       <div ref={cloudRightRef} className="hero-cloud hero-cloud--right" />
       <div ref={cloudCenterRef} className="hero-cloud hero-cloud--center" />
 
-      {/* Particle trail canvas */}
-      <ParticleCanvas handleRef={particleHandle} />
+      {/* Flare trail canvas */}
+      <FlareCanvas handleRef={particleHandle} />
 
       {/* Trail SVG */}
       <svg
@@ -707,11 +759,11 @@ export default function Hero() {
 
       {/* Text content */}
       <div
-        className="relative flex h-full flex-col items-center justify-start pt-[19vh] px-4 text-center"
+        className="relative flex h-full flex-col items-center justify-center pt-24 px-6 text-center md:items-start md:text-left md:px-16 lg:px-24 md:max-w-[58vw]"
         style={{ zIndex: 20 }}
       >
         {/* Badge */}
-        <div data-hero-badge className="mb-8 flex justify-center" style={{ opacity: 0 }}>
+        <div data-hero-badge className="mb-8 flex justify-center md:justify-start" style={{ opacity: 0 }}>
           <span className="hero-badge">
             <span className="hero-badge__dot" />
             {t.hero.badge}
@@ -719,17 +771,17 @@ export default function Hero() {
         </div>
 
         {/* Headline */}
-        <h1 style={{ lineHeight: 1.02 }}>
+        <h1 style={{ lineHeight: 0.95 }}>
           <span
             data-hero-title-top
-            className="block font-display font-black tracking-tight text-[clamp(2.8rem,8vw,7rem)] uppercase"
-            style={{ opacity: 0, color: 'oklch(96% 0.008 90)' }}
+            className="block font-display font-black tracking-tight text-[clamp(3.2rem,9vw,8.5rem)] uppercase"
+            style={{ opacity: 0, color: 'oklch(78% 0.006 90)' }}
           >
             {t.hero.titleTop}
           </span>
 
           <span
-            className="mt-2 block font-display font-black tracking-tight text-[clamp(1.6rem,4.5vw,3.8rem)] uppercase"
+            className="mt-1 block font-display font-black tracking-tight text-[clamp(1.6rem,4.5vw,3.8rem)] uppercase"
             style={{ color: 'var(--accent-gold)' }}
             aria-label={t.hero.titleReveal}
           >
@@ -738,16 +790,16 @@ export default function Hero() {
         </h1>
 
         {/* CTAs */}
-        <div ref={ctaRef} className="mt-10 flex flex-col items-center gap-5" style={{ opacity: 0 }}>
+        <div ref={ctaRef} className="mt-10 flex flex-col items-center gap-5 md:items-start" style={{ opacity: 0 }}>
           <p
             data-hero-subtitle
-            className="max-w-lg text-center text-base md:text-lg"
-            style={{ color: 'oklch(86% 0.008 265)', lineHeight: 1.65 }}
+            className="max-w-lg text-base md:text-lg md:text-left text-center"
+            style={{ color: 'oklch(72% 0.01 265)', lineHeight: 1.65 }}
           >
             {t.hero.subtitle}
           </p>
 
-          <div data-hero-buttons className="flex flex-wrap justify-center gap-3">
+          <div data-hero-buttons className="flex flex-wrap justify-center gap-3 md:justify-start">
             <a
               href="#contact"
               className="gold-button rounded-full px-7 py-3.5 text-sm font-bold tracking-wide"
@@ -763,15 +815,19 @@ export default function Hero() {
           </div>
 
           {/* Trust signals */}
-          <div data-hero-trust className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-2">
-            {t.hero.trust.map((item) => (
-              <span
-                key={item}
-                className="text-xs font-medium"
-                style={{ color: 'var(--nav-text)' }}
-              >
-                {item}
-              </span>
+          <div data-hero-trust className="flex flex-wrap justify-center gap-y-2 mt-2 md:justify-start items-center gap-x-3">
+            {t.hero.trust.map((item, i) => (
+              <Fragment key={item}>
+                {i > 0 && (
+                  <span aria-hidden="true" style={{ color: 'var(--accent-gold)', opacity: 0.4 }}>·</span>
+                )}
+                <span
+                  className="text-xs font-medium"
+                  style={{ color: 'var(--nav-text)' }}
+                >
+                  {item}
+                </span>
+              </Fragment>
             ))}
           </div>
         </div>
@@ -784,7 +840,7 @@ export default function Hero() {
         style={{ zIndex: 20, opacity: 0 }}
       >
         <div className="scroll-nudge flex flex-col items-center gap-1" style={{ color: 'oklch(60% 0.02 265)' }}>
-          <span className="text-[9px] font-bold uppercase tracking-[0.22em]">Scroll</span>
+          <span className="text-[10px] font-bold uppercase tracking-[0.22em]">Scroll</span>
           <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path
               d="M10 4v12m0 0l-4-4m4 4l4-4"
