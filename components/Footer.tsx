@@ -35,10 +35,10 @@ export function Footer() {
             </div>
 
             <div className="flex items-center gap-5 text-sm" style={{ color: 'var(--text-muted)' }}>
-              <Link href="#" className="hover:text-[color:var(--text-primary)] transition">
+              <Link href="/privacidad" className="hover:text-[color:var(--text-primary)] transition">
                 {t.footer.privacy}
               </Link>
-              <Link href="#" className="hover:text-[color:var(--text-primary)] transition">
+              <Link href="/terminos" className="hover:text-[color:var(--text-primary)] transition">
                 {t.footer.terms}
               </Link>
             </div>

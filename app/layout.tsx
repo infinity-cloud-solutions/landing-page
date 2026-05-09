@@ -2,6 +2,7 @@ import './globals.css'
 import { ReactNode } from 'react'
 import { Barlow_Condensed, Manrope } from 'next/font/google'
 import { LanguageProvider } from '@/lib/i18n'
+import { Analytics } from '@vercel/analytics/react'
 import type { Metadata } from 'next'
 
 const SITE_URL = 'https://infinitycloudsolutions.com'
@@ -52,21 +53,12 @@ export const metadata: Metadata = {
     title: 'Infinity AI Cloud Solutions — Automatización e IA para PyMEs en México',
     description:
       'Automatizamos operaciones para PyMEs en México con IA y automatización. Diagnóstico gratuito, implementación en 4–8 semanas y resultados medibles desde la semana 2.',
-    images: [
-      {
-        url: '/images/og-image.svg',
-        width: 1200,
-        height: 630,
-        alt: 'Infinity AI Cloud Solutions — Automatización e IA para PyMEs en México',
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Infinity AI Cloud Solutions — Automatización e IA para PyMEs en México',
     description:
       'Automatizamos operaciones para PyMEs en México con IA y automatización. Diagnóstico gratuito, implementación en 4–8 semanas.',
-    images: ['/images/og-image.svg'],
   },
   alternates: {
     canonical: SITE_URL,
@@ -140,6 +132,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body className={`${bodyFont.variable} ${displayFont.variable}`}>
         <LanguageProvider>{children}</LanguageProvider>
+        <Analytics />
       </body>
     </html>
   )
