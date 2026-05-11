@@ -355,97 +355,260 @@ function RocketSVG() {
     <svg
       viewBox="0 0 68 240"
       className="h-28 w-auto sm:h-32 md:h-36 lg:h-40"
-      style={{ filter: 'drop-shadow(0 0 20px oklch(74% 0.15 58 / 0.45))' }}
+      style={{ filter: 'drop-shadow(0 0 22px oklch(74% 0.15 58 / 0.5))' }}
       aria-hidden="true"
     >
       <defs>
+        {/* Cylinder: deep shadow at edges, specular highlight ridge right of center */}
         <linearGradient id="rkCyl" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#14202e" />
-          <stop offset="16%" stopColor="#606e80" />
-          <stop offset="36%" stopColor="#bec6d0" />
-          <stop offset="50%" stopColor="#e0e6ee" />
-          <stop offset="66%" stopColor="#8290a4" />
-          <stop offset="84%" stopColor="#38465a" />
-          <stop offset="100%" stopColor="#14202e" />
+          <stop offset="0%"   stopColor="#050810" />
+          <stop offset="8%"   stopColor="#12202e" />
+          <stop offset="20%"  stopColor="#2e3e52" />
+          <stop offset="34%"  stopColor="#5c7082" />
+          <stop offset="46%"  stopColor="#94a8b8" />
+          <stop offset="53%"  stopColor="#c8d6e2" />
+          <stop offset="59%"  stopColor="#dce8f0" />
+          <stop offset="66%"  stopColor="#a4b4c4" />
+          <stop offset="77%"  stopColor="#485a6e" />
+          <stop offset="89%"  stopColor="#18222e" />
+          <stop offset="100%" stopColor="#050810" />
         </linearGradient>
+        {/* Nose cone: same but shifted for narrower taper */}
         <linearGradient id="rkNose" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#14202e" />
-          <stop offset="20%" stopColor="#50606e" />
-          <stop offset="40%" stopColor="#b0bac6" />
-          <stop offset="50%" stopColor="#d4dae4" />
-          <stop offset="64%" stopColor="#728094" />
-          <stop offset="82%" stopColor="#323e50" />
-          <stop offset="100%" stopColor="#14202e" />
+          <stop offset="0%"   stopColor="#050810" />
+          <stop offset="12%"  stopColor="#16202e" />
+          <stop offset="28%"  stopColor="#3c4e62" />
+          <stop offset="44%"  stopColor="#7a8e9e" />
+          <stop offset="53%"  stopColor="#aebece" />
+          <stop offset="60%"  stopColor="#c8d6e4" />
+          <stop offset="70%"  stopColor="#7e90a2" />
+          <stop offset="84%"  stopColor="#222e3e" />
+          <stop offset="100%" stopColor="#050810" />
         </linearGradient>
-        <linearGradient id="rkFin" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#2e3a4c" />
-          <stop offset="100%" stopColor="#0e1620" />
+        {/* Fins: dark face with subtle tonal variation */}
+        <linearGradient id="rkFin" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stopColor="#06090f" />
+          <stop offset="40%"  stopColor="#18222e" />
+          <stop offset="70%"  stopColor="#22303e" />
+          <stop offset="100%" stopColor="#0c1420" />
         </linearGradient>
+        {/* Nozzle bell outer metal */}
         <linearGradient id="rkNoz" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#080e16" />
-          <stop offset="28%" stopColor="#32404e" />
-          <stop offset="50%" stopColor="#526070" />
-          <stop offset="72%" stopColor="#32404e" />
-          <stop offset="100%" stopColor="#080e16" />
+          <stop offset="0%"   stopColor="#050810" />
+          <stop offset="22%"  stopColor="#1c2630" />
+          <stop offset="40%"  stopColor="#384450" />
+          <stop offset="50%"  stopColor="#4c5c68" />
+          <stop offset="60%"  stopColor="#384450" />
+          <stop offset="78%"  stopColor="#1c2630" />
+          <stop offset="100%" stopColor="#050810" />
         </linearGradient>
-        {/* Gold-tinted exhaust instead of pure blue-white */}
-        <radialGradient id="rkPlasma" cx="50%" cy="5%" r="90%" fx="50%" fy="3%">
-          <stop offset="0%" stopColor="#fff8e8" />
-          <stop offset="20%" stopColor="#f5d080" />
-          <stop offset="55%" stopColor="#c8881e" stopOpacity="0.6" />
-          <stop offset="100%" stopColor="#3a1800" stopOpacity="0" />
+        {/* Structural rings / flanges */}
+        <linearGradient id="rkRing" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stopColor="#08101a" />
+          <stop offset="26%"  stopColor="#1e2e3e" />
+          <stop offset="50%"  stopColor="#364858" />
+          <stop offset="56%"  stopColor="#445060" />
+          <stop offset="72%"  stopColor="#243040" />
+          <stop offset="90%"  stopColor="#101820" />
+          <stop offset="100%" stopColor="#08101a" />
+        </linearGradient>
+        {/* Heat tile sections (interstage, engine skirt) */}
+        <linearGradient id="rkHeat" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stopColor="#06080c" />
+          <stop offset="28%"  stopColor="#14181e" />
+          <stop offset="50%"  stopColor="#1e2228" />
+          <stop offset="72%"  stopColor="#14181e" />
+          <stop offset="100%" stopColor="#06080c" />
+        </linearGradient>
+        {/* Nozzle interior: orange glow from combustion heat at throat */}
+        <radialGradient id="rkNozGlow" cx="50%" cy="0%" r="100%">
+          <stop offset="0%"   stopColor="#c05828" stopOpacity="0.65" />
+          <stop offset="35%"  stopColor="#6a1e0e" stopOpacity="0.45" />
+          <stop offset="100%" stopColor="#040204" stopOpacity="0.92" />
         </radialGradient>
-        <radialGradient id="rkExhaust" cx="50%" cy="4%" r="92%">
-          <stop offset="0%" stopColor="#f0b429" stopOpacity="0.7" />
-          <stop offset="48%" stopColor="#c8681e" stopOpacity="0.28" />
-          <stop offset="100%" stopColor="#3a1800" stopOpacity="0" />
+        {/* Inner plasma — hot white core fading through gold to transparent */}
+        <radialGradient id="rkPlasma" cx="50%" cy="3%" r="90%" fx="50%" fy="1%">
+          <stop offset="0%"   stopColor="#ffffff" />
+          <stop offset="10%"  stopColor="#fff8e0" />
+          <stop offset="24%"  stopColor="#f8d060" />
+          <stop offset="45%"  stopColor="#e07820" stopOpacity="0.75" />
+          <stop offset="68%"  stopColor="#903010" stopOpacity="0.4" />
+          <stop offset="100%" stopColor="#3a1000" stopOpacity="0" />
         </radialGradient>
-        <filter id="rkGlow" x="-80%" y="-80%" width="260%" height="260%">
-          <feGaussianBlur stdDeviation="2.8" result="b" />
+        {/* Main exhaust cone */}
+        <radialGradient id="rkExhaust" cx="50%" cy="6%" r="92%">
+          <stop offset="0%"   stopColor="#f0a820" stopOpacity="0.9" />
+          <stop offset="30%"  stopColor="#c06820" stopOpacity="0.62" />
+          <stop offset="60%"  stopColor="#783818" stopOpacity="0.32" />
+          <stop offset="100%" stopColor="#2a1000" stopOpacity="0" />
+        </radialGradient>
+        {/* Outer diffuse smoke boundary */}
+        <radialGradient id="rkSmoke" cx="50%" cy="15%" r="80%">
+          <stop offset="0%"   stopColor="#684030" stopOpacity="0.28" />
+          <stop offset="55%"  stopColor="#361806" stopOpacity="0.12" />
+          <stop offset="100%" stopColor="#0e0400" stopOpacity="0" />
+        </radialGradient>
+        <filter id="rkGlow" x="-80%" y="-60%" width="260%" height="220%">
+          <feGaussianBlur stdDeviation="2.5" result="b" />
+          <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+        <filter id="rkGlowSoft" x="-100%" y="-50%" width="300%" height="200%">
+          <feGaussianBlur stdDeviation="3" result="b" />
           <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
         </filter>
       </defs>
 
-      {/* NOSE CONE */}
-      <path d="M34 5 C32 16, 25 40, 23 66 L45 66 C43 40, 36 16, 34 5 Z" fill="url(#rkCyl)" />
-      <line x1="30" y1="16" x2="27" y2="40" stroke="#dce4ee" strokeWidth="1.4" strokeOpacity="0.42" strokeLinecap="round" />
+      {/* ── NOSE CONE — ogive/von Karman profile via cubic beziers ── */}
+      <path
+        d="M34 3
+           C33.6 12, 32.4 26, 31.0 40
+           C29.8 52, 27.8 58, 25.5 64
+           L42.5 64
+           C40.2 58, 38.2 52, 37.0 40
+           C35.6 26, 34.4 12, 34 3 Z"
+        fill="url(#rkNose)"
+      />
+      {/* Specular highlight ridge */}
+      <path
+        d="M34.6 4.5
+           C34.8 13, 35.2 27, 35.8 41
+           C36.4 53, 37 59, 37.5 64
+           L38.8 64
+           C38.2 59, 37.4 53, 36.8 41
+           C36.2 27, 35.5 13, 34.6 4.5 Z"
+        fill="rgba(255,255,255,0.1)"
+      />
+      {/* Carbon-phenolic ablative tip */}
+      <path d="M34 3 C33.9 8, 33.6 13, 33.3 18 C33.7 16, 34.3 16, 34.7 18 C34.4 13, 34.1 8, 34 3 Z" fill="#0c0e12" opacity="0.8" />
 
-      {/* MAIN BODY */}
-      <rect x="23" y="66" width="22" height="110" fill="url(#rkCyl)" />
-      <line x1="23" y1="94" x2="45" y2="94" stroke="#6a7a8c" strokeWidth="0.9" strokeOpacity="0.55" />
-      <line x1="23" y1="124" x2="45" y2="124" stroke="#5a6a7c" strokeWidth="0.8" strokeOpacity="0.45" />
-      <line x1="23" y1="152" x2="45" y2="152" stroke="#5a6a7c" strokeWidth="0.8" strokeOpacity="0.4" />
-      <line x1="27.5" y1="66" x2="27.5" y2="176" stroke="#606e82" strokeWidth="0.55" strokeOpacity="0.32" />
+      {/* ── SHOULDER RING — structural flange ── */}
+      <rect x="24.5" y="64" width="19" height="3.5" fill="url(#rkRing)" rx="0.4" />
+      <line x1="25" y1="66.2" x2="43" y2="66.2" stroke="rgba(255,255,255,0.06)" strokeWidth="0.65" />
+      {/* Fastener bolts on ring */}
+      {[28, 31.5, 36.5, 40].map((bx, i) => (
+        <circle key={i} cx={bx} cy={65.6} r="0.7" fill="#0c1624" stroke="#2e3e4e" strokeWidth="0.3" />
+      ))}
 
-      {/* PORTHOLE */}
-      <circle cx="34" cy="112" r="7" fill="#060c14" stroke="#48586a" strokeWidth="1.3" />
-      <circle cx="34" cy="112" r="5" fill="#0a1220" />
-      <ellipse cx="31.5" cy="109" rx="1.8" ry="1.1" fill="#9aa6bc" opacity="0.58" transform="rotate(-22,31.5,109)" />
+      {/* ── UPPER BODY — LOX tank section ── */}
+      <rect x="23" y="67.5" width="22" height="50" fill="url(#rkCyl)" />
+      {/* Horizontal panel seams */}
+      <line x1="23" y1="83" x2="45" y2="83"   stroke="#4a5c70" strokeWidth="0.7"  strokeOpacity="0.48" />
+      <line x1="23" y1="100" x2="45" y2="100"  stroke="#4a5c70" strokeWidth="0.65" strokeOpacity="0.42" />
+      <line x1="23" y1="116" x2="45" y2="116"  stroke="#4a5c70" strokeWidth="0.55" strokeOpacity="0.36" />
+      {/* Vertical stringer lines */}
+      <line x1="27.5" y1="67.5" x2="27.5" y2="117.5" stroke="#58687a" strokeWidth="0.38" strokeOpacity="0.26" />
+      <line x1="40.5" y1="67.5" x2="40.5" y2="117.5" stroke="#58687a" strokeWidth="0.38" strokeOpacity="0.26" />
+      {/* Specular stripe */}
+      <rect x="38" y="67.5" width="3" height="50" fill="rgba(255,255,255,0.055)" rx="0.5" />
 
-      {/* ENGINE SKIRT */}
-      <path d="M23 176 L21 192 L47 192 L45 176 Z" fill="url(#rkCyl)" />
+      {/* ── PORTHOLE — pressure window with frame detail ── */}
+      <circle cx="34" cy="92.5" r="8"   fill="#080c14" stroke="url(#rkRing)" strokeWidth="1.7" />
+      <circle cx="34" cy="92.5" r="6.3" fill="#0c1018" />
+      <circle cx="34" cy="92.5" r="5.6" fill="#080c12" />
+      {/* Primary reflection */}
+      <ellipse cx="31.4" cy="90"   rx="2.5" ry="1.4" fill="rgba(150,190,225,0.42)" transform="rotate(-22,31.4,90)"   />
+      {/* Secondary soft reflection */}
+      <ellipse cx="32.5" cy="94.5" rx="1.1" ry="0.65" fill="rgba(130,170,205,0.2)"  transform="rotate(-15,32.5,94.5)" />
+      {/* Frame bolt holes */}
+      <circle cx="34"    cy="84.5"  r="0.72" fill="#182434" stroke="#2e3e4e" strokeWidth="0.3" />
+      <circle cx="42.2"  cy="92.5"  r="0.72" fill="#182434" stroke="#2e3e4e" strokeWidth="0.3" />
+      <circle cx="34"    cy="100.5" r="0.72" fill="#182434" stroke="#2e3e4e" strokeWidth="0.3" />
+      <circle cx="25.8"  cy="92.5"  r="0.72" fill="#182434" stroke="#2e3e4e" strokeWidth="0.3" />
 
-      {/* DELTA FINS */}
-      <path d="M23 152 L4 196 L23 187 Z" fill="url(#rkFin)" />
-      <path d="M45 152 L64 196 L45 187 Z" fill="url(#rkFin)" />
+      {/* ── INTERSTAGE RING ── */}
+      <rect x="22" y="117.5" width="24" height="6" fill="url(#rkHeat)" />
+      <line x1="22" y1="119" x2="46" y2="119"   stroke="rgba(255,255,255,0.07)" strokeWidth="0.7" />
+      <line x1="22" y1="122.2" x2="46" y2="122.2" stroke="rgba(0,0,0,0.5)"           strokeWidth="0.8" />
+      {/* Grid-fin-like cutouts */}
+      {[26, 30.5, 34, 37.5, 42].map((gx, i) => (
+        <rect key={i} x={gx - 1.2} y="119.5" width="2.4" height="2.5" rx="0.4" fill="rgba(0,0,0,0.55)" />
+      ))}
 
-      {/* NOZZLE BELL */}
-      <path d="M24 192 Q21 200, 18 214 L50 214 Q47 200, 44 192 Z" fill="url(#rkNoz)" />
-      <ellipse cx="34" cy="192" rx="10.5" ry="2.5" fill="#181e2a" stroke="#3a4a5e" strokeWidth="0.9" />
-      <ellipse cx="34" cy="214" rx="16" ry="3.2" fill="#06080e" stroke="#304a68" strokeWidth="1.1" />
+      {/* ── LOWER BODY — RP-1 fuel tank section ── */}
+      <rect x="23" y="123.5" width="22" height="50" fill="url(#rkCyl)" />
+      <line x1="23" y1="139" x2="45" y2="139"  stroke="#4a5c70" strokeWidth="0.7"  strokeOpacity="0.42" />
+      <line x1="23" y1="156" x2="45" y2="156"  stroke="#4a5c70" strokeWidth="0.65" strokeOpacity="0.38" />
+      <line x1="23" y1="172" x2="45" y2="172"  stroke="#4a5c70" strokeWidth="0.55" strokeOpacity="0.32" />
+      <line x1="27.5" y1="123.5" x2="27.5" y2="173.5" stroke="#58687a" strokeWidth="0.38" strokeOpacity="0.24" />
+      <line x1="40.5" y1="123.5" x2="40.5" y2="173.5" stroke="#58687a" strokeWidth="0.38" strokeOpacity="0.24" />
+      <rect x="38" y="123.5" width="3" height="50" fill="rgba(255,255,255,0.05)" rx="0.5" />
 
-      {/* GOLD ENGINE PLUME */}
-      <ellipse cx="34" cy="236" rx="16" ry="24" fill="url(#rkExhaust)">
-        <animate attributeName="ry" values="24;17;24" dur="0.44s" repeatCount="indefinite" />
-        <animate attributeName="opacity" values="1;0.55;1" dur="0.44s" repeatCount="indefinite" />
+      {/* ── ENGINE SKIRT — heat-shielded thrust structure ── */}
+      <path d="M23 173.5 L20 190 L48 190 L45 173.5 Z" fill="url(#rkHeat)" />
+      {/* Structural rib lines */}
+      <line x1="24.5" y1="174" x2="22"   y2="189" stroke="rgba(255,255,255,0.05)" strokeWidth="0.8" />
+      <line x1="31"   y1="174" x2="29.5" y2="189" stroke="rgba(255,255,255,0.04)" strokeWidth="0.6" />
+      <line x1="37"   y1="174" x2="38.5" y2="189" stroke="rgba(255,255,255,0.04)" strokeWidth="0.6" />
+      <line x1="43.5" y1="174" x2="46"   y2="189" stroke="rgba(255,255,255,0.05)" strokeWidth="0.8" />
+      {/* Engine collar */}
+      <rect x="20" y="189.5" width="28" height="3.5" fill="url(#rkRing)" />
+
+      {/* ── DELTA FINS — swept, with visible inboard face for 3D depth ── */}
+      {/* Left fin face */}
+      <path d="M23 147 L4 194 L21 189 L23 167 Z" fill="url(#rkFin)" />
+      {/* Left fin inboard lit edge */}
+      <path d="M23 147 L21 189 L22.5 189.5 L23.5 149 Z" fill="rgba(60,80,100,0.7)" />
+      {/* Right fin face */}
+      <path d="M45 147 L64 194 L47 189 L45 167 Z" fill="url(#rkFin)" />
+      {/* Right fin inboard shadowed edge */}
+      <path d="M45 147 L47 189 L45.5 189.5 L44.5 149 Z" fill="rgba(0,0,0,0.42)" />
+
+      {/* ── NOZZLE BELL — proper convergent-divergent profile ── */}
+      <path
+        d="M27 193
+           C26 198, 23.5 205, 21 214
+           L47 214
+           C44.5 205, 42 198, 41 193 Z"
+        fill="url(#rkNoz)"
+      />
+      {/* Interior combustion glow */}
+      <path
+        d="M28 195
+           C27 200, 24.5 207, 22 214
+           L46 214
+           C43.5 207, 41 200, 40 195 Z"
+        fill="url(#rkNozGlow)"
+      />
+      {/* Throat lip */}
+      <ellipse cx="34" cy="193"  rx="7"  ry="2"   fill="#141c24" stroke="#2c3e50" strokeWidth="0.9" />
+      {/* Exit plane rim */}
+      <ellipse cx="34" cy="214"  rx="13" ry="3"   fill="#06080c" stroke="#263848" strokeWidth="1.3" />
+      {/* Bell expansion rib lines */}
+      <line x1="28"  y1="196" x2="23" y2="213" stroke="#2c3c4c" strokeWidth="0.45" strokeOpacity="0.55" />
+      <line x1="34"  y1="195" x2="34" y2="213" stroke="#2c3c4c" strokeWidth="0.35" strokeOpacity="0.38" />
+      <line x1="40"  y1="196" x2="45" y2="213" stroke="#2c3c4c" strokeWidth="0.45" strokeOpacity="0.55" />
+      {/* Exit plane specular arc */}
+      <path d="M22 212 Q34 214.5, 46 212" stroke="rgba(100,140,175,0.2)" strokeWidth="0.6" fill="none" />
+
+      {/* ── ENGINE PLUME — layered for realism ── */}
+      {/* Outer diffuse boundary */}
+      <ellipse cx="34" cy="247" rx="20" ry="28" fill="url(#rkSmoke)">
+        <animate attributeName="ry"      values="28;20;28"     dur="0.65s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="1;0.55;1"     dur="0.65s" repeatCount="indefinite" />
       </ellipse>
-      <ellipse cx="34" cy="232" rx="7.5" ry="18" fill="url(#rkPlasma)" filter="url(#rkGlow)">
-        <animate attributeName="ry" values="18;12;18" dur="0.30s" repeatCount="indefinite" />
-        <animate attributeName="opacity" values="1;0.5;1" dur="0.30s" repeatCount="indefinite" />
+      {/* Main exhaust cone */}
+      <ellipse cx="34" cy="243" rx="13" ry="23" fill="url(#rkExhaust)">
+        <animate attributeName="ry"      values="23;16;23"     dur="0.44s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.9;0.48;0.9" dur="0.44s" repeatCount="indefinite" />
       </ellipse>
-      <ellipse cx="34" cy="220" rx="3.2" ry="5.5" fill="#fff4cc" filter="url(#rkGlow)" opacity="0.92">
-        <animate attributeName="ry" values="5.5;3;5.5" dur="0.22s" repeatCount="indefinite" />
-        <animate attributeName="opacity" values="0.92;0.35;0.92" dur="0.22s" repeatCount="indefinite" />
+      {/* Hot plasma core */}
+      <ellipse cx="34" cy="234" rx="7" ry="17" fill="url(#rkPlasma)" filter="url(#rkGlow)">
+        <animate attributeName="ry"      values="17;11;17"   dur="0.30s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="1;0.55;1"   dur="0.30s" repeatCount="indefinite" />
+      </ellipse>
+      {/* Shock diamond 1 — Mach disk closest to nozzle */}
+      <ellipse cx="34" cy="229" rx="4.5" ry="2.8" fill="rgba(255,245,200,0.52)" filter="url(#rkGlowSoft)">
+        <animate attributeName="opacity" values="0.52;0.18;0.52" dur="0.26s" repeatCount="indefinite" />
+        <animate attributeName="ry"      values="2.8;1.3;2.8"    dur="0.26s" repeatCount="indefinite" />
+      </ellipse>
+      {/* Shock diamond 2 — second Mach disk further downstream */}
+      <ellipse cx="34" cy="238" rx="3.5" ry="2" fill="rgba(255,225,120,0.32)" filter="url(#rkGlowSoft)">
+        <animate attributeName="opacity" values="0.32;0.1;0.32" dur="0.31s" begin="0.1s" repeatCount="indefinite" />
+      </ellipse>
+      {/* Throat exit — brightest point, near-white */}
+      <ellipse cx="34" cy="216" rx="4.5" ry="5.5" fill="#ffffff" filter="url(#rkGlow)" opacity="0.9">
+        <animate attributeName="ry"      values="5.5;3;5.5"    dur="0.22s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.9;0.35;0.9" dur="0.22s" repeatCount="indefinite" />
       </ellipse>
     </svg>
   )

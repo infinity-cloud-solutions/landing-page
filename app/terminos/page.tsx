@@ -90,8 +90,8 @@ export default function TerminosPage() {
           <section>
             <h2 className="legal-heading">3. Propiedad intelectual</h2>
             <p>
-              Todos los contenidos del Sitio —incluyendo textos, imágenes, logotipos,
-              diseño, código fuente y elementos gráficos— son propiedad de{' '}
+              Todos los contenidos del Sitio, incluyendo textos, imágenes, logotipos,
+              diseño, código fuente y elementos gráficos, son propiedad de{' '}
               {COMPANY} o de sus respectivos titulares, y están protegidos por las leyes
               mexicanas e internacionales de propiedad intelectual.
             </p>

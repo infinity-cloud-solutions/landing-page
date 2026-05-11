@@ -16,7 +16,7 @@ export const translations = {
       titleTop: 'TU NEGOCIO TRABAJA',
       titleReveal: 'aunque tú no estés',
       subtitle:
-        'Eliminamos el trabajo manual que frena tu negocio — para que crezcas sin contratar más.',
+        'Eliminamos el trabajo manual que frena tu negocio, para que crezcas sin contratar más.',
       primaryCta: 'Habla con un experto',
       secondaryCta: 'Ver servicios',
       trust: ['+120 proyectos entregados', 'Soluciones activas en +12 industrias', 'Resultados medibles desde la semana 2'],
@@ -79,7 +79,7 @@ export const translations = {
       ],
       testimonial: {
         quote:
-          'Antes vivíamos apagando incendios. Hoy recuperamos más de 35 horas a la semana y redujimos costos en un 60% — en menos de 8 semanas.',
+          'Antes vivíamos apagando incendios. Hoy recuperamos más de 35 horas a la semana y redujimos costos en un 60%, en menos de 8 semanas.',
         author: 'Ricardo Hernández',
         role: 'Director General, Productos Ortopédicos HRR',
         challengeLabel: 'El reto',
@@ -190,7 +190,7 @@ export const translations = {
       titleTop: 'YOUR BUSINESS RUNS',
       titleReveal: 'even when you\'re not there',
       subtitle:
-        'We eliminate the manual work holding your business back — so you can grow without hiring more.',
+        'We eliminate the manual work holding your business back, so you can grow without hiring more.',
       primaryCta: 'Talk to an expert',
       secondaryCta: 'View services',
       trust: ['120+ projects delivered', 'Active in 12+ industries', 'Results from week 2'],
@@ -203,7 +203,7 @@ export const translations = {
       items: [
         {
           title: 'Support on Autopilot',
-          description: 'Respond to customers instantly — no extra staff needed.',
+          description: 'Respond to customers instantly, no extra staff needed.',
         },
         {
           title: 'No More Manual Data Entry',
@@ -211,7 +211,7 @@ export const translations = {
         },
         {
           title: 'Know Your Numbers First',
-          description: "See what's working — and what's costing you — before it's too late.",
+          description: "See what's working, and what's costing you, before it's too late.",
         },
         {
           title: '24/7 Operations, No Hiring',
@@ -253,7 +253,7 @@ export const translations = {
       ],
       testimonial: {
         quote:
-          'We used to spend every week firefighting. Now we recovered 35+ hours a week and cut costs by 60% — in under 8 weeks.',
+          'We used to spend every week firefighting. Now we recovered 35+ hours a week and cut costs by 60%, in under 8 weeks.',
         author: 'Ricardo Hernández',
         role: 'General Director, Productos Ortopédicos HRR',
         challengeLabel: 'The Challenge',
@@ -277,7 +277,7 @@ export const translations = {
         },
         {
           title: 'Close Partnership',
-          description: 'You have a real person answering your questions — not a support ticket.',
+          description: 'You have a real person answering your questions, not a support ticket.',
           icon: 'support_agent',
         },
         {
@@ -324,7 +324,7 @@ export const translations = {
         },
         {
           q: 'How much does automating my business cost?',
-          a: 'Every project is different depending on scope and complexity. We start with a free discovery to understand your operation and give you a clear proposal with a defined cost — no surprises.',
+          a: 'Every project is different depending on scope and complexity. We start with a free discovery to understand your operation and give you a clear proposal with a defined cost, no surprises.',
         },
         {
           q: 'What tools do you work with?',
@@ -332,7 +332,7 @@ export const translations = {
         },
         {
           q: 'What happens if something breaks after delivery?',
-          a: 'Post-implementation support is included in all projects. You have a direct contact for any issue — no tickets, no long waits.',
+          a: 'Post-implementation support is included in all projects. You have a direct contact for any issue, no tickets, no long waits.',
         },
         {
           q: 'Do you only work with large companies?',
@@ -341,7 +341,7 @@ export const translations = {
       ],
     },
     footer: {
-      tagline: 'Technology that works for you — so your business scales without the chaos.',
+      tagline: 'Technology that works for you, so your business scales without the chaos.',
       privacy: 'Privacy',
       terms: 'Terms',
       rights: '© 2026 Infinity AI Cloud Solutions',
