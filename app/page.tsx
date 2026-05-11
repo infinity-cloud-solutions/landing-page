@@ -13,8 +13,8 @@ import { SmoothScroll } from '@/components/SmoothScroll'
 export default function HomePage() {
   return (
     <SmoothScroll>
+      <Navbar />
       <main className="main-shell">
-        <Navbar />
         <Hero />
         <Services />
         <Process />
@@ -23,8 +23,8 @@ export default function HomePage() {
         <FAQ />
         <Contact />
         <Footer />
-        <FloatingChat />
       </main>
+      <FloatingChat />
     </SmoothScroll>
   )
 }
