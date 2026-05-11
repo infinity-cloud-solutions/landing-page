@@ -188,7 +188,7 @@ export const translations = {
       badge: 'Smart Transformation for SMBs',
       title: 'YOUR BUSINESS RUNS',
       titleTop: 'YOUR BUSINESS RUNS',
-      titleReveal: 'even when you\'re not there',
+      titleReveal: 'even when you\'re\nnot there',
       subtitle:
         'We eliminate the manual work holding your business back, so you can grow without hiring more.',
       primaryCta: 'Talk to an expert',

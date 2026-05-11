@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useEffect, useCallback, Fragment } from 'react'
+import React, { useRef, useEffect, useCallback, Fragment } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
@@ -854,12 +854,32 @@ export default function Hero() {
     { scope: sectionRef }
   )
 
-  // Split titleReveal into per-character spans
-  const chars = t.hero.titleReveal.split('').map((ch, i) => (
-    <span key={i} data-reveal-char className="reveal-char" style={{ opacity: 0 }}>
-      {ch === ' ' ? '\u00A0' : ch}
-    </span>
-  ))
+  // Fixed-size pool so GSAP always targets the same DOM nodes across language switches.
+  // \n in the translation string renders as <br> (not a pool slot). Max 30 visible chars.
+  const REVEAL_POOL = 30
+  const revealText = t.hero.titleReveal
+  const chars: React.ReactNode[] = []
+  let poolIdx = 0
+  for (const ch of revealText) {
+    if (ch === '\n') {
+      chars.push(<br key={`br-${poolIdx}`} />)
+    } else if (poolIdx < REVEAL_POOL) {
+      chars.push(
+        <span key={poolIdx} data-reveal-char className="reveal-char" style={{ opacity: 0 }}>
+          {ch}
+        </span>
+      )
+      poolIdx++
+    }
+  }
+  while (poolIdx < REVEAL_POOL) {
+    chars.push(
+      <span key={poolIdx} data-reveal-char className="reveal-char" style={{ opacity: 0 }}>
+        {null}
+      </span>
+    )
+    poolIdx++
+  }
 
   return (
     <section ref={sectionRef} className="relative h-[100dvh] w-full overflow-hidden">

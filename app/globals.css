@@ -492,7 +492,7 @@ a {
 /* ── Reveal char — letter-by-letter ── */
 
 .reveal-char {
-  display: inline-block;
+  display: inline;
   will-change: transform, opacity;
 }
 
